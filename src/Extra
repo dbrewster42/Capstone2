@@ -1,0 +1,47 @@
+public static void createPieces() {
+        Rook rook = new Rook(0, 0, "white");
+        Rook rook2 = new Rook(7, 0, "white");
+        Rook rookB = new Rook(0, 7, "black");
+        Rook rookB2 = new Rook(7, 7, "black");
+        white[0] = rook;
+        white[1] = knight;
+        white[2] = bishop;
+
+        int count = 8;
+        for (int i = 0; i < 8; i++) {
+            Pawn pawn = new Pawn(i, 2, "white");
+            white[count] = pawn;
+            count++;
+        }
+        // white[5] = Piece.W_QUEEN;
+        // white[0] = Piece.W_ROOK;
+        // String position = "G";
+        // if (color.equals("white")) {
+        //     position = "B";
+        // }
+        // Square[] squares = new Square[64];
+        // Pawn pawn1 = new Pawn(color, "B1");
+        // King king = new King("white");
+        // white[0] = king;
+        // King king2 = new King("black");
+        // black[0] = king;
+        // Queen queen = new Queen("white");
+        // Queen queen2 = new Queen("black");
+        // white[1] = queen;
+        // black[1] = queen2;
+
+        // white[2] = rook;
+        // white[3] = rook2;
+        // black[2] = rookB;
+        // black[3] = rookB2;
+        // Knight knight = new Knight("white");
+        // white[4] = knight;
+        // white[5] = knight;
+        // black[4] = knight;
+        // black[5] = knight;
+        // for (int i = 1; i < 9; i++) {
+        //     String name = color + i;
+        //     String exact = position + i;
+        //     Pawn name = new Pawn(color, exact);
+        // }
+    }
