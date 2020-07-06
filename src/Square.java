@@ -8,8 +8,7 @@ public class Square {
     // protected Square(int x, int y, String id) {
     //     this(x, y, id, null);
     // }
-
-    protected Square(int x, int y, Piece piece) {
+    protected Square(int y, int x, Piece piece) {
         this.x = x;
         this.y = y;
         // this.id = id;
@@ -22,6 +21,12 @@ public class Square {
     // public Square getSquare(String id){
     //     return this;
     // }
+    public boolean hasPiece() {
+        if (this.piece == null) {
+            return false;
+        }
+        return true;
+    }
 
     public Piece getPiece() {
         return this.piece;
@@ -35,6 +40,9 @@ public class Square {
         return x;
     }
 
+    /*
+    **********For Printing Entire Board ************
+    */
     public String printPiece() {
         // String team;
         // if (this.piece.color == "white") {

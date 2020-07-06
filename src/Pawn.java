@@ -23,18 +23,28 @@ public class Pawn extends Piece {
         }
     }
 
+    /*
+    **********Returns Name ************
+    */
     @Override
     public String getName() {
         return this.name;
     }
 
-    public Type getType() {
-        return type;
-    }
-
+    /*
+    **********Returns Team ************
+    */
     @Override
     public String getColor() {
         return this.color;
+    }
+
+    /*
+    **********Returns Type ************
+    */
+    @Override
+    public Type getType() {
+        return this.type;
     }
 
     @Override

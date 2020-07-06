@@ -29,15 +29,28 @@ public class Rook extends Piece {
     //     position[1] = y;
     //     return position;
     // }
-
+    /*
+    **********Returns Name ************
+    */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /*
+    **********Returns Team ************
+    */
     @Override
     public String getColor() {
         return this.color;
+    }
+
+    /*
+    **********Returns Type ************
+    */
+    @Override
+    public Type getType() {
+        return this.type;
     }
 
     public void select() {

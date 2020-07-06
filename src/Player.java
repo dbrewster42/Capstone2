@@ -4,12 +4,15 @@ public class Player {
 
     public Player(String playerName, Piece[] team) {
         name = playerName;
-        team = this.team;
-
+        this.team = team;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Piece[] getTeam() {
+        return this.team;
     }
 
     public Piece[] getPieces() {

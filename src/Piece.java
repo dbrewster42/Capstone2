@@ -1,7 +1,3 @@
-
-// import com.gameboard.*;
-// import java.util.List;
-
 public abstract class Piece {
     // Square square;    
     // String name;
@@ -13,8 +9,8 @@ public abstract class Piece {
     public String name;
     public String color;
     public boolean alive = true;
-
     // int x, y;
+
     Piece(String color) {
         this.color = color;
     }
@@ -26,14 +22,27 @@ public abstract class Piece {
     // }
     // public void setAlive() {
     // }
-
+    /*
+    **********Returns Team ************
+    */
     public abstract String getColor();
 
+    /*
+    **********Returns Name(for printing) ************
+    */
     public abstract String getName();
+
     // public abstract void select();
+    /*
+    **********Returns Type(for printing) ************
+    */
+    public abstract Type getType();
 
     public abstract void move();
 
+    /*
+    **********Returns Whether Move is Accepted ************
+    */
     public abstract boolean isValidMove();
 
     // public abstract int[] getPosition();

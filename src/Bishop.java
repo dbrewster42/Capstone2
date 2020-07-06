@@ -15,14 +15,28 @@ public class Bishop extends Piece {
         }
     }
 
+    /*
+    **********Returns Name ************
+    */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /*
+    **********Returns Team ************
+    */
     @Override
     public String getColor() {
         return this.color;
+    }
+
+    /*
+    **********Returns Type ************
+    */
+    @Override
+    public Type getType() {
+        return this.type;
     }
 
     @Override
