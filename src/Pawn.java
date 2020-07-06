@@ -51,8 +51,21 @@ public class Pawn extends Piece {
     public void move() {
     }
 
+    /*
+    **********Checks To Ensure Piece is moving Forward 1 spot, unless first move in which case it can move 2, or capturing ************
+    */
     @Override
-    public boolean isValidMove() {
+    public boolean isValidMove(int x, int y, int endX, int endY) {
+        if (y - endY != 0) {
+            return false;
+        }
+        if (x - endX != 1) {
+            /////////////// I either have to switch this statement OR check to make sre no pieces are in the way first
+            if (x == 1 && endX == 3 || x == 6 && endX == 4) {
+                return true;
+            }
+            return false;
+        }
         return true;
     }
 

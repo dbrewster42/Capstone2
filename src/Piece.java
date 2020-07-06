@@ -43,7 +43,7 @@ public abstract class Piece {
     /*
     **********Returns Whether Move is Accepted ************
     */
-    public abstract boolean isValidMove();
+    public abstract boolean isValidMove(int x, int y, int endX, int endY);
 
     // public abstract int[] getPosition();
 

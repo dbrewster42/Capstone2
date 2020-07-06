@@ -62,7 +62,8 @@ public class Rook extends Piece {
     }
 
     @Override
-    public boolean isValidMove() {
+    public boolean isValidMove(int x, int y, int endX, int endY) {
+        System.out.println("Boogie boogie");
         return true;
     }
 

@@ -8,7 +8,7 @@ public class Square {
     // protected Square(int x, int y, String id) {
     //     this(x, y, id, null);
     // }
-    protected Square(int y, int x, Piece piece) {
+    protected Square(int x, int y, Piece piece) {
         this.x = x;
         this.y = y;
         // this.id = id;

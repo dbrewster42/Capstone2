@@ -49,7 +49,7 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean isValidMove() {
+    public boolean isValidMove(int x, int y, int endX, int endY) {
         return true;
     }
 
