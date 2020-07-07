@@ -57,14 +57,29 @@ public class Pawn extends Piece {
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
         if (y - endY != 0) {
+            if (y - endY == 1) {
+                ///capture move
+                if (Board.squares[endX][endY].hasPiece()) {
+                    return true;
+                }
+            }
             return false;
         }
         if (x - endX != 1) {
-            /////////////// I either have to switch this statement OR check to make sre no pieces are in the way first
+
             if (x == 1 && endX == 3 || x == 6 && endX == 4) {
+                if (Board.squares[endX][endY].hasPiece()) {
+                    return false;
+                }
                 return true;
             }
             return false;
+        }
+        if (x - endX == 1) {
+            if (Board.squares[endX][endY].hasPiece()) {
+                return false;
+            }
+            return true;
         }
         return true;
     }

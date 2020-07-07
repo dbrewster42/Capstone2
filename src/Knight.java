@@ -45,9 +45,21 @@ public class Knight extends Piece {
     public void move() {
     }
 
+    /*
+    **********Checks To Ensure Piece is moving 1 spot vertically and 2 spots horizontally or vise versa ************
+    */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
-        return true;
+        int condition1 = Math.abs(x - endX);
+        int condition2 = Math.abs(y - endY);
+        if (condition1 == 1) {
+            if (condition2 == 2)
+                return true;
+        } else if (condition1 == 2) {
+            if (condition2 == 1)
+                return true;
+        }
+        return false;
     }
 
     // private Knight(String name, String color) {

@@ -48,10 +48,16 @@ public class King extends Piece {
     public void move() {
     }
 
+    /*
+    **********King can move 1 spot in any direction ************
+    */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
-        return true;
-    }
+        if (Math.abs(endX - x) < 2 && Math.abs(endY - y) < 2) {
+            return true;
+        }
+        return false;
+    }/////////////////must prevent moving into check
 
     public void select() {
     }

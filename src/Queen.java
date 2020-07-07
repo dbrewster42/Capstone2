@@ -44,10 +44,15 @@ public class Queen extends Piece {
     }
 
     /*
-    **********Sets What Movements Piece is Capable Of ************
+    **********Queen can move in any 1 direction infinitely if not blocked, but only 1 direction  ************
     */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
-        return true;
+        int condition1 = Math.abs(endX - x);
+        int condition2 = Math.abs(endY - y);
+        if (condition1 == 0 || condition2 == 0 || condition1 == condition2)
+            ////must check to see if blocked
+            return true;
+        return false;
     }
 }

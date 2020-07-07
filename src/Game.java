@@ -156,6 +156,7 @@ public class Game {
                 if (Board.squares[endX][endY].hasPiece()) {
                     Type capturedType = Board.squares[endX][endY].getPiece().getType();
                     Player otherPlayer = getOtherTeam(player);
+                    System.out.println(player + "'s " + type + " has captured " + otherPlayer + "'s " + capturedType + "!")
                     Piece[] pieces = otherPlayer.getTeam();
                     // Type capturedType = fb
                     for (Piece i : pieces) {
