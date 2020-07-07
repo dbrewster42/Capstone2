@@ -38,14 +38,27 @@ public class Board {
     }
 
     /*
-    **********Prints Board to console ************
+    **********Prints Board to console With Each Square Labeled************
+    */
+    public void showDetailedBoard() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (j == 7)
+                    System.out.println(i + "" + j + ":" + squares[i][j].printPiece());
+                else
+                    System.out.print(i + "" + j + ": " + squares[i][j].printPiece() + ", ");
+            }
+        }
+    }
+
+    /*
+    **********Prints Board to console with Rows and Columns ************
     */
     public void showBoard() {
         System.out.println("ROW--0-----1-----2-----3-----4-----5-----6-----7--");
         for (int i = 0; i < 8; i++) {
             System.out.print(" " + i + ": ");
             for (int j = 0; j < 8; j++) {
-                // System.out.print(squares[i][j].printPiece() + ", ");                
                 if (j == 7)
                     System.out.println(squares[i][j].printPiece() + " :" + i);
                 else

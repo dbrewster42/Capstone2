@@ -68,11 +68,22 @@ public class Game {
     }
 
     /*
+    ************** Get other Team ****************
+    */
+    public static Player getOtherTeam(Player player) {
+        if (player == player1) {
+            return player2;
+        } else {
+            return player1;
+        }
+    }
+
+    /*
     ************** Select a Piece ****************
     */
     public static void selectPiece(Player player, Board gameboard) {
         System.out.println(player.getName()
-                + ", it is your turn. Select the piece you wish to move or type in 999 to display a list of all your pieces or 888 to display the board");
+                + ", it is your turn. Select the piece you wish to move or type in 999 to display a list of all your pieces or 888 to display the detailed board");
         int action = 0;
         try {
             action = scanner.nextInt();
@@ -88,7 +99,7 @@ public class Game {
             selectPiece(player, gameboard);
         }
         if (action == 888) {
-            gameboard.showBoard();
+            gameboard.showDetailedBoard();
             selectPiece(player, gameboard);
         }
         int x = action / 10;
@@ -117,7 +128,7 @@ public class Game {
     ************** Move Your Piece ****************
     */
     public static void movePiece(Player player, int x, int y, Board gameboard) {
-        int action = 888;
+        int action;
         Square initial = gameboard.getSquare(x, y);
         Piece piece = initial.getPiece();
         System.out.println("If you wish to select a different piece, press 999.");
@@ -125,32 +136,46 @@ public class Game {
         try {
             action = scanner.nextInt();
             scanner.nextLine();
+            if (action == 999) {
+                selectPiece(player, gameboard);
+            } else if (action > 77 || action < 0) {
+                System.out.println(
+                        "You must enter 999 or a double digit number. The first digit is the x coordinate, the second is the y coordinate.");
+                movePiece(player, x, y, gameboard);
+            }
+            int endX = action / 10;
+            int endY = action % 10;
+            if (gameboard.getSquare(endX, endY) == null) {
+                movePiece(player, x, y, gameboard);
+            }
+            if (piece.isValidMove(x, y, endX, endY)) {
+                Type type = piece.getType();
+                Move move = new Move(player, type, x, y, endX, endY);
+                moves.add(move);
+                gameboard.getSquare(x, y).setPiece(null);
+                if (Board.squares[endX][endY].hasPiece()) {
+                    Type capturedType = Board.squares[endX][endY].getPiece().getType();
+                    Player otherPlayer = getOtherTeam(player);
+                    Piece[] pieces = otherPlayer.getTeam();
+                    // Type capturedType = fb
+                    for (Piece i : pieces) {
+                        if (i.getType() == capturedType) {
+                            i = null;
+                            break;
+                        }
+                    }
+                }
+                gameboard.getSquare(endX, endY).setPiece(piece);
+            } else {
+                System.out.println("Invalid move");
+                movePiece(player, x, y, gameboard);
+            }
         } catch (Exception e) {
             System.out.println(
                     "You must enter 999 or a double digit number. The first digit is the x coordinate, the second is the y coordinate.");
             movePiece(player, x, y, gameboard);
         }
-        if (action == 999) {
-            selectPiece(player, gameboard);
-        }
-        int endX = action / 10;
-        int endY = action % 10;
-        if (gameboard.getSquare(endX, endY) == null) {
-            movePiece(player, x, y, gameboard);
-        }
-        if (piece.isValidMove(x, y, endX, endY)) {
-            Type type = piece.getType();
-            Move move = new Move(player, type, x, y, endX, endY);
-            moves.add(move);
-            gameboard.getSquare(x, y).setPiece(null);
-            if (Board.squares[endX][endY].hasPiece()) {
-                ///get opposite team
-                //set type to null in piece[]
-            }
-            gameboard.getSquare(endX, endY).setPiece(piece);
-        } else {
-            System.out.println("Invalid move");
-        }
+
     }
 
     public static void main(String[] args) {
@@ -159,18 +184,17 @@ public class Game {
         boolean active = true;
         player1 = createPlayer1();
         player2 = createPlayer2();
-        // getPieces(black);
         System.out.println();
-        //try/catch a timeout
         System.out.println(
-                "Select your piece by typing in a double digit number. The first digit is the vertical coordinate, the second digit is the horizontal.");
-        System.out.println(
-                "For example, typing in 11 will select your piece on the 2nd row and 2nd column. Then you will select it's destination in the same fashion");
+                "Select your piece by typing in a double digit number. The first digit is the vertical coordinate, the second digit is the horizontal like so-");
+        gameboard.showDetailedBoard();
+        // getPieces(black);      
+        System.out.println("Yo can type 888 into the console at any time to see this detailed board");
         while (active) {
-            gameboard.showBoard();
             selectPiece(player1, gameboard);
             gameboard.showBoard();
             selectPiece(player2, gameboard);
+            gameboard.showBoard();
         }
 
     }

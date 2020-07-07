@@ -65,14 +65,15 @@ public class Bishop extends Piece {
         } else {
             checkY = -1;
         } ////////////////////problem!
-        while (width != 0) {
+        int count = Math.abs(width);
+        while (count >= 0) {
             int betweenX = x - checkX;
             int betweenY = y - checkY;
-            System.out.println("Checking Square " + betweenX + betweenY + " . Width- " + width);
+            System.out.println("Checking Square " + betweenX + betweenY + " . Count- " + count);
             if (Board.squares[betweenX][betweenY].hasPiece()) {
                 return false;
             }
-            width = width + checkX;
+            count--;
         }
         return true;
     }
