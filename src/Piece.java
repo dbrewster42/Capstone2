@@ -41,7 +41,7 @@ public abstract class Piece {
     public abstract void move();
 
     /*
-    **********Returns Whether Move is Accepted ************
+    **********Returns Whether Move is Accepted Based on the piece's movement ability************
     */
     public abstract boolean isValidMove(int x, int y, int endX, int endY);
 

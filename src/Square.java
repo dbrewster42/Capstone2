@@ -21,6 +21,9 @@ public class Square {
     // public Square getSquare(String id){
     //     return this;
     // }
+    /*
+    **********Checks if the Square has a Piece ************
+    */
     public boolean hasPiece() {
         if (this.piece == null) {
             return false;
@@ -28,20 +31,29 @@ public class Square {
         return true;
     }
 
+    /*
+    **********Returns Piece (if there) Use AFTER hasPiece() ************
+    */
     public Piece getPiece() {
         return this.piece;
     }
 
+    /*
+    **********Returns Y coordinate ************
+    */
     public int getY() {
         return y;
     }
 
+    /*
+    **********Returns X coordinate ************
+    */
     public int getX() {
         return x;
     }
 
     /*
-    **********For Printing Entire Board ************
+    **********For Printing Square's piece(no hasPiece() check needed) ************
     */
     public String printPiece() {
         // String team;
@@ -57,6 +69,9 @@ public class Square {
             return null;
     }
 
+    /*
+    **********Sets new Piece ************
+    */
     public void setPiece(Piece piece) {
         this.piece = piece;
     }

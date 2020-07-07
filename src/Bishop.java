@@ -64,10 +64,10 @@ public class Bishop extends Piece {
             checkY = 1;
         } else {
             checkY = -1;
-        }
+        } ////////////////////problem!
         while (width != 0) {
-            int betweenX = x + checkX;
-            int betweenY = y + checkY;
+            int betweenX = x - checkX;
+            int betweenY = y - checkY;
             System.out.println("Checking Square " + betweenX + betweenY + " . Width- " + width);
             if (Board.squares[betweenX][betweenY].hasPiece()) {
                 return false;

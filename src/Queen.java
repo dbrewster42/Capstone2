@@ -43,6 +43,9 @@ public class Queen extends Piece {
     public void move() {
     }
 
+    /*
+    **********Sets What Movements Piece is Capable Of ************
+    */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
         return true;

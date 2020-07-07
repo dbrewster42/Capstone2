@@ -4,10 +4,12 @@ public class Board {
     // List<Square> squares = new ArrayList<Square>();
     // Square[] squares = new Square[64];
     final public static Square[][] squares = new Square[8][8];
+    static Board uni;
 
-    public Board() {
+    private Board() {
         //dynamically creates board composed of 64 squares        
         generateBoard();
+        //prints board pieces or null in a 8x8 square      
         showBoard();
         // for (int[] : squares) {
         //     for (Square s : int[]){
@@ -25,18 +27,32 @@ public class Board {
     }
 
     /*
+    **********Singleton Constructor ************
+    */
+    public static Board boardConstructor() {
+        if (uni == null) {
+            Board instance = new Board();
+            uni = instance;
+        }
+        return uni;
+    }
+
+    /*
     **********Prints Board to console ************
     */
     public void showBoard() {
+        System.out.println("ROW--0-----1-----2-----3-----4-----5-----6-----7--");
         for (int i = 0; i < 8; i++) {
+            System.out.print(" " + i + ": ");
             for (int j = 0; j < 8; j++) {
-                // System.out.print(squares[i][j].printPiece() + ", ");
+                // System.out.print(squares[i][j].printPiece() + ", ");                
                 if (j == 7)
-                    System.out.println(squares[i][j].printPiece());
+                    System.out.println(squares[i][j].printPiece() + " :" + i);
                 else
                     System.out.print(squares[i][j].printPiece() + ", ");
             }
         }
+        System.out.println("-ROW--0-----1-----2-----3-----4-----5-----6-----7--");
     }
 
     /*
