@@ -71,18 +71,20 @@ public class Pawn extends Piece {
             return false;
         }
         if (Math.abs(x - endX) != 1) {
-            if (Math.abs(x - endX) == 2) {
-                if (x == 1 && endX == 3 || x == 6 && endX == 4) {
-                    if (Board.squares[endX][endY].hasPiece()) {
-                        return false;
-                    }
-                    return true;
+            // if (Math.abs(x - endX) == 2) {}
+            if (x == 1 && endX == 3 || x == 6 && endX == 4) {
+                if (Board.squares[endX][endY].hasPiece()) {
+                    return false;
                 }
+                return true;
             }
+
             return false;
         }
         if (Math.abs(x - endX) == 1) {
+            System.out.println("Howdy");
             if (Board.squares[endX][endY].hasPiece()) {
+                System.out.println("Hi");
                 return false;
             }
             return true;

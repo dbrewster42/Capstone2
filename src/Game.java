@@ -111,6 +111,7 @@ public class Game {
             } else {
                 int pieceSelection = action;
                 selectPiece(player, gameboard, pieceSelection);
+                return;
             }
             preSelect(player, gameboard);
         } catch (Exception e) {
@@ -137,6 +138,7 @@ public class Game {
             if (player.hasPiece(piece)) {
                 System.out.println("You have selected a " + piece.getType() + " at " + x + ", " + y);
                 preMove(player, x, y, gameboard);
+                return;
             } else {
                 System.out.println("Invalid choice. That is not your piece at " + x + ", " + y);
                 preSelect(player, gameboard);
@@ -248,6 +250,7 @@ public class Game {
             } else {
                 int pieceSelection = action;
                 movePiece(player, x, y, gameboard, pieceSelection);
+                return;
             }
             preMove(player, x, y, gameboard);
         } catch (Exception e) {
