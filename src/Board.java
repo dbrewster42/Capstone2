@@ -74,7 +74,7 @@ public class Board {
     public Square getSquare(int x, int y) {
         if (x < 0 || x > 7 || y < 0 || y > 7) {
             // throw new Exception("Index out of bound"); 
-            System.out.println("This square does not exist. Please try again");
+            System.out.println(x + "" + y + ": This square does not exist. Please try again");
             return null;
         }
 

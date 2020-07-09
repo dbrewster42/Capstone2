@@ -44,8 +44,12 @@ public class King extends Piece {
         return this.type;
     }
 
+    /*
+    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
+    */
     @Override
-    public void move() {
+    public boolean canCheck() {
+        return false;
     }
 
     /*

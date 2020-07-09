@@ -19,7 +19,7 @@ public class Rook extends Piece {
         if (color.equals("white"))
             name = "wRok";
         else {
-            name = "bRok";
+            name = "RokB";
         }
     }
 
@@ -56,9 +56,12 @@ public class Rook extends Piece {
     public void select() {
     }
 
+    /*
+    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
+    */
     @Override
-    public void move() {
-
+    public boolean canCheck() {
+        return false;
     }
 
     /*
@@ -66,10 +69,55 @@ public class Rook extends Piece {
     */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
-        int condition1 = Math.abs(endX - x);
-        int condition2 = Math.abs(endY - y);
+        int condition1 = endX - x;
+        int condition2 = endY - y;
         if (condition1 == 0 || condition2 == 0) {
             System.out.println("Boogie boogie");
+            int count, check, between;
+            // int count = Math.abs(condition1);
+            if (condition1 == 0) {
+                // count = Math.abs(condition2);
+                count = condition2;
+                if (condition2 > 0) {
+                    check = 1;
+                } else {
+                    check = -1;
+                }
+                between = y;
+                System.out.println(count);
+                while (count != 1 || count != -1) {
+                    between = between + check;
+                    System.out.println("Checking Square " + x + between + ". Count- " + count);
+                    if (Board.squares[x][between].hasPiece()) {
+                        return false;
+                    }
+                    count--;
+                }
+                return true;
+            } else if (condition2 == 0) {
+                count = Math.abs(condition1);
+                if (condition1 > 0) {
+                    check = 1;
+                } else {
+                    check = -1;
+                }
+                between = x;
+                while (count > 0) {
+                    between = between + check;
+                    System.out.println("Checking Square " + between + y + ". Count- " + count);
+                    if (Board.squares[between][y].hasPiece()) {
+                        return false;
+                    }
+                    count--;
+                }
+                return true;
+            }
+
+            // while (count > 0){
+            //     if (Board.squares[betweenX][betweenY].hasPiece()) {
+            //         return false;
+            //     }
+            // }
             return true;
         }
         return false;

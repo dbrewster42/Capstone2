@@ -11,8 +11,13 @@ public class Bishop extends Piece {
         if (color.equals("white"))
             name = "wBis";
         else {
-            name = "bBis";
+            name = "BisB";
         }
+        // if (color.equals("white"))
+        //     name = "\u2657";
+        // else {
+        //     name = "\u265D";
+        // }
     }
 
     /*
@@ -39,8 +44,12 @@ public class Bishop extends Piece {
         return this.type;
     }
 
+    /*
+    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
+    */
     @Override
-    public void move() {
+    public boolean canCheck() {
+        return false;
     }
 
     /*
@@ -49,10 +58,15 @@ public class Bishop extends Piece {
     */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
+        //doesn't work with-1 up +1 right or down and left
+        //counts 1 time too many
         int width = x - endX;
         int length = y - endY;
-        if (width != length)
+        if (Math.abs(width) != Math.abs(length)) {
+            System.out.println("Oh you Bishop " + Math.abs(width) + "" + Math.abs(length));
             return false;
+        }
+
         //// Initalize the increment amounts to be used to find direction
         int checkX, checkY;
         if (width > 0) {
@@ -66,15 +80,16 @@ public class Bishop extends Piece {
             checkY = -1;
         } ////////////////////problem!
         int count = Math.abs(width);
-        int betweenX = x - checkX;
-        int betweenY = y - checkY;
-        while (count >= 0) {
+        int betweenX = x;
+        int betweenY = y;
+        while (count > 0) {
             betweenX = betweenX - checkX;
             betweenY = betweenY - checkY;
             System.out.println("Checking Square " + betweenX + betweenY + " . Count- " + count);
             if (Board.squares[betweenX][betweenY].hasPiece()) {
                 return false;
             }
+
             count--;
         }
         return true;

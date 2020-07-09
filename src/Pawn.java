@@ -1,5 +1,3 @@
-// import java.util.List;
-
 public class Pawn extends Piece {
     // final public static Piece B_Pawn = new Pawn("Pawn", "black");
     // final public static Piece W_Pawn = new Pawn("Pawn", "white");
@@ -18,8 +16,10 @@ public class Pawn extends Piece {
         type = Type.PAWN;
         if (color.equals("white"))
             name = "wPaw";
+        // name = "\u2659";
         else {
-            name = "bPaw";
+            name = "PawB";
+            // name = "\u265F";
         }
     }
 
@@ -47,8 +47,12 @@ public class Pawn extends Piece {
         return this.type;
     }
 
+    /*
+    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
+    */
     @Override
-    public void move() {
+    public boolean canCheck() {
+        return false;
     }
 
     /*
@@ -57,25 +61,27 @@ public class Pawn extends Piece {
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
         if (y - endY != 0) {
-            if (y - endY == 1) {
-                ///capture move
-                if (Board.squares[endX][endY].hasPiece()) {
+            if (Math.abs(y - endY) == 1) {
+                if (Math.abs(x - endX) == 1)
+                    ///capture move
+                    if (Board.squares[endX][endY].hasPiece()) {
+                        return true;
+                    }
+            }
+            return false;
+        }
+        if (Math.abs(x - endX) != 1) {
+            if (Math.abs(x - endX) == 2) {
+                if (x == 1 && endX == 3 || x == 6 && endX == 4) {
+                    if (Board.squares[endX][endY].hasPiece()) {
+                        return false;
+                    }
                     return true;
                 }
             }
             return false;
         }
-        if (x - endX != 1) {
-
-            if (x == 1 && endX == 3 || x == 6 && endX == 4) {
-                if (Board.squares[endX][endY].hasPiece()) {
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        }
-        if (x - endX == 1) {
+        if (Math.abs(x - endX) == 1) {
             if (Board.squares[endX][endY].hasPiece()) {
                 return false;
             }
@@ -84,8 +90,8 @@ public class Pawn extends Piece {
         return true;
     }
 
-    public void select() {
-    }
+    // public void select() {
+    // }
     // @Override    
     // public int[] getPosition() {
     //     position[0] = x;

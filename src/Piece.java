@@ -38,7 +38,7 @@ public abstract class Piece {
     */
     public abstract Type getType();
 
-    public abstract void move();
+    public abstract boolean canCheck();
 
     /*
     **********Returns Whether Move is Accepted Based on the piece's movement ability************
