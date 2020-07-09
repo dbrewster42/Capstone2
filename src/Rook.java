@@ -85,30 +85,31 @@ public class Rook extends Piece {
                 }
                 between = y;
                 System.out.println(count);
-                while (count != 1 || count != -1) {
+                while (count != 1 && count != -1) {
                     between = between + check;
                     System.out.println("Checking Square " + x + between + ". Count- " + count);
                     if (Board.squares[x][between].hasPiece()) {
                         return false;
                     }
-                    count--;
+                    count = count - check;
                 }
                 return true;
             } else if (condition2 == 0) {
-                count = Math.abs(condition1);
+                // count = Math.abs(condition1);
+                count = condition1;
                 if (condition1 > 0) {
                     check = 1;
                 } else {
                     check = -1;
                 }
                 between = x;
-                while (count > 0) {
+                while (count != 1 && count != -1) {
                     between = between + check;
                     System.out.println("Checking Square " + between + y + ". Count- " + count);
                     if (Board.squares[between][y].hasPiece()) {
                         return false;
                     }
-                    count--;
+                    count = count - check;
                 }
                 return true;
             }

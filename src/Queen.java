@@ -61,41 +61,65 @@ public class Queen extends Piece {
                 checkY = -1;
             }
             betweenY = y;
-            while (count != 1 || count != -1) {
+            while (count != 1 && count != -1) {
                 betweenY = betweenY + checkY;
                 System.out.println("Checking Square " + x + betweenY + ". Count- " + count);
                 if (Board.squares[x][betweenY].hasPiece()) {
                     return false;
                 }
-                count--;
+                count = count - checkY;
             }
             return true;
             /////////////////nnnnnnnnnnnnneeds refactor IFFF Roook works
         } else if (condition2 == 0) {
             System.out.println("Travelling vertically");
+            int count = condition1;
             if (endX - x > 0) {
                 checkX = 1;
             } else {
                 checkX = -1;
             }
             betweenX = x;
-            while (condition1 > 0) {
-                betweenY = betweenY + checkY;
-                System.out.println("Checking Square " + x + betweenY + ". Count- " + condition2);
-                if (Board.squares[x][betweenY].hasPiece()) {
+            while (count > 1) {
+                betweenX = betweenX + checkX;
+                System.out.println("Checking Square " + betweenX + y + ". Count- " + count);
+                if (Board.squares[betweenX][y].hasPiece()) {
                     return false;
                 }
-                condition2--;
+                count--;
             }
             return true;
 
         } else if (condition1 == condition2) {
             System.out.println("Travelling diagonally");
+            int count = condition1;
+            if (endX - x > 0) {
+                checkX = -1;
+            } else {
+                checkX = 1;
+            }
+            if (endY - y > 0) {
+                checkY = -1;
+            } else {
+                checkY = 1;
+            }
+            betweenX = x;
+            betweenY = y;
+            while (count > 1) {
+                betweenX = betweenX - checkX;
+                betweenY = betweenY - checkY;
+                System.out.println("Checking Square " + betweenX + betweenY + " . Count- " + count);
+                if (Board.squares[betweenX][betweenY].hasPiece()) {
+                    System.out.println("Blocked");
+                    return false;
+                }
+                count--;
+            }
+            return true;
 
         } else
             return false;
-        ////must check to see if blocked
 
-        return false;
+        // return false;
     }
 }
