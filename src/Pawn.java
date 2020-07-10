@@ -60,9 +60,16 @@ public class Pawn extends Piece {
     */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
+        int direction = endX - x;
+        if (this.color.equals("white")) {
+            direction = x - endX;
+        }
+        // else {
+        //     direction = endX -x;
+        // }
         if (y - endY != 0) {
             if (Math.abs(y - endY) == 1) {
-                if (Math.abs(x - endX) == 1)
+                if (direction == 1)
                     ///capture move
                     if (Board.squares[endX][endY].hasPiece()) {
                         return true;
@@ -70,8 +77,7 @@ public class Pawn extends Piece {
             }
             return false;
         }
-        if (Math.abs(x - endX) != 1) {
-            // if (Math.abs(x - endX) == 2) {}
+        if (direction != 1) {
             if (x == 1 && endX == 3 || x == 6 && endX == 4) {
                 if (Board.squares[endX][endY].hasPiece()) {
                     return false;
@@ -81,7 +87,7 @@ public class Pawn extends Piece {
 
             return false;
         }
-        if (Math.abs(x - endX) == 1) {
+        if (direction == 1) {
             System.out.println("Howdy");
             if (Board.squares[endX][endY].hasPiece()) {
                 System.out.println("Hi");

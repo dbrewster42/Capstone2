@@ -4,13 +4,55 @@ import java.util.Arrays;
 
 public class Player {
     private String name;
-    private Piece[] team;
+    // private Piece[] white;
+    // private Piece[] black;
+    Piece[] team;
+    private boolean isWhite;
 
-    public Player(String playerName, Piece[] myTeam) {
+    public Player(String playerName, boolean isWhite) {
         name = playerName;
-        team = myTeam;
+        this.isWhite = isWhite;
+        if (isWhite) {
+            team = createPieces(6);
+        } else {
+            team = createPieces(0);
+        }
     }
 
+    /*
+    ************** Initalization of All Pieces ****************
+    */
+    public static Piece[] createPieces(int start) {
+        Piece[] team = new Piece[16];
+        int count = 0;
+        int end = start + 2;
+        for (int i = start; i < end; i++) {
+            for (int j = 0; j < 8; j++) {
+                // System.out.println(Board.squares[i][j].printPiece() + " :" + count + " " + start + " " + end);
+                team[count] = Board.squares[i][j].getPiece();
+                count++;
+            }
+        }
+        return team;
+        // count = 0;
+        // for (int i = 6; i < 8; i++) {
+        //     for (int j = 0; j < 8; j++) {
+        //         white[count] = Board.squares[i][j].getPiece();
+        //         count++;
+        //     }
+        // }
+    }
+
+    /*
+    **********Returns whether White or Black ************
+    */
+    public boolean getColor() {
+        return isWhite;
+    }
+
+    /*
+    **********Returns player's name ************
+    */
     public String getName() {
         return name;
     }
@@ -20,6 +62,13 @@ public class Player {
     */
     public Piece[] getTeam() {
         return team;
+    }
+
+    /*
+    **********Sets current team ************
+    */
+    public void setTeam(Piece[] updatedTeam) {
+        team = updatedTeam;
     }
 
     /*
@@ -36,8 +85,7 @@ public class Player {
     }
 
     /*
-    ************** Prints Your Team's Available Pieces ****************
-    //// I could jazz it up so that it is a count of each Piece Type  
+    ************** Prints Your Team's Available Pieces by Type with a Count ****************  
     */
     public void getPieces() {
         int pawnCount = 0;
@@ -49,7 +97,10 @@ public class Player {
         //     System.out.print(i.getType() + ", ");
         // }
         // System.out.println("");
+        System.out.println("crickets");
         for (Piece i : team) {
+            if (i == null)
+                continue;
             if (i.getType() == Type.BISHOP)
                 bishopCount++;
             if (i.getType() == Type.QUEEN)
@@ -73,14 +124,52 @@ public class Player {
     /*
     **********Removes captured piece from team ************
     */
-    public Piece[] killPiece(Piece piece) {
+    // public void killPiece(Piece piece) {
+    //     piece = null;
+    // }
+    public void killPiece(Piece piece) {
+        System.out.println("HI GUY");
+        int count = 0;
         for (Piece i : team) {
-            if (i == piece) {
-                i = null;
+            if (i.getType() == piece.getType()) {
                 break;
             }
+            count++;
         }
-        return team;
+        team[count] = null;
+        // return team;
+    }
+
+    /*
+    **********Changes Pawn to Queen/ Change Piece/ Add Piece ************
+    */
+    public Piece pawnPromotion(Piece piece) {
+        // if (piece.getType() == Type.PAWN);
+        String color;
+        // if (isWhite) {
+        //     color = "white";
+        //     Queen queen = new Queen("white");
+        //     piece = queen;
+        // } else {
+        //     Queen queen = new Queen("black");
+        //     piece = queen;
+        // }
+        if (isWhite) {
+            color = "white";
+        } else {
+            color = "black";
+        }
+        Queen queen = new Queen(color);
+        int count = 0;
+        for (Piece i : team) {
+            if (i.getType() == piece.getType()) {
+                break;
+            }
+            count++;
+        }
+        team[count] = queen;
+        piece = queen;
+        return piece;
     }
 
     interface lambdaContains {

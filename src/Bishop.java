@@ -78,7 +78,7 @@ public class Bishop extends Piece {
             checkY = 1;
         } else {
             checkY = -1;
-        } ////////////////////problem!
+        }
         int count = Math.abs(width);
         int betweenX = x;
         int betweenY = y;
@@ -94,11 +94,5 @@ public class Bishop extends Piece {
         }
         return true;
     }
-
-    public void select() {
-    }
-    // public List<String> possibleMoves() {
-    //     return moves;
-    // }
 
 }

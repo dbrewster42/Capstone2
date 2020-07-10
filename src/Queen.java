@@ -7,7 +7,7 @@ public class Queen extends Piece {
         if (color.equals("white"))
             name = "wQUE";
         else {
-            name = "QUEb";
+            name = "QUEB";
         }
     }
 
@@ -48,12 +48,12 @@ public class Queen extends Piece {
     */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
-        System.out.println("MY QUEEN!");
+        // System.out.println("MY QUEEN!");
         int condition1 = Math.abs(endX - x);
         int condition2 = Math.abs(endY - y);
         int checkX, checkY, betweenX, betweenY;
         if (condition1 == 0) {
-            System.out.println("Travelling horizontally");
+            // System.out.println("Travelling horizontally");
             int count = endY - y;
             if (count > 0) {
                 checkY = 1;
@@ -70,9 +70,8 @@ public class Queen extends Piece {
                 count = count - checkY;
             }
             return true;
-            /////////////////nnnnnnnnnnnnneeds refactor IFFF Roook works
         } else if (condition2 == 0) {
-            System.out.println("Travelling vertically");
+            // System.out.println("Travelling vertically");
             int count = condition1;
             if (endX - x > 0) {
                 checkX = 1;
@@ -91,7 +90,7 @@ public class Queen extends Piece {
             return true;
 
         } else if (condition1 == condition2) {
-            System.out.println("Travelling diagonally");
+            // System.out.println("Travelling diagonally");
             int count = condition1;
             if (endX - x > 0) {
                 checkX = -1;
@@ -120,6 +119,5 @@ public class Queen extends Piece {
         } else
             return false;
 
-        // return false;
     }
 }

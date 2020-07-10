@@ -1,8 +1,5 @@
 public class Board {
-    // List<String> ids = Arrays.asList("A", "B", "C", "D", "E", "F", "G","H" );
-    // String[] ids = { "A", "B", "C", "D", "E", "F", "G", "H" };
-    // List<Square> squares = new ArrayList<Square>();
-    // Square[] squares = new Square[64];
+    // String[] ids = { "A", "B", "C", "D", "E", "F", "G", "H" };   
     final public static Square[][] squares = new Square[8][8];
     static Board uni;
 
@@ -11,19 +8,6 @@ public class Board {
         generateBoard();
         //prints board pieces or null in a 8x8 square      
         showBoard();
-        // for (int[] : squares) {
-        //     for (Square s : int[]){
-        //         System.out.println(s.getID());
-        //     }
-        // }         
-        // for (int i = 0; i < 8; i++) {
-        //     for (int j = 0; j < 8; j++) {
-        //         if (j == 7)
-        //             System.out.println(squares[i][j].printPiece());
-        //         else
-        //             System.out.print(squares[i][j].printPiece() + ", ");
-        //     }
-        // }
     }
 
     /*
@@ -52,7 +36,7 @@ public class Board {
     }
 
     /*
-    **********Prints Board to console with Rows and Columns ************
+    **********Prints Board to console with Rows and Columns marked on the Perimeter ************
     */
     public void showBoard() {
         System.out.println("ROW--0-----1-----2-----3-----4-----5-----6-----7--");
@@ -77,12 +61,11 @@ public class Board {
             System.out.println(x + "" + y + ": This square does not exist. Please try again");
             return null;
         }
-
         return squares[x][y];
     }
 
     /*
-    **********Creates board from scratch ************
+    **********Creates board from scratch / Instantiates all Squares and all Pieces ************
     */
     public Square[][] generateBoard() {
         ///add first and last row manually
@@ -90,7 +73,7 @@ public class Board {
         squares[0][1] = new Square(0, 1, new Knight("black"));
         squares[0][2] = new Square(0, 2, new Bishop("black"));
         squares[0][3] = new Square(0, 3, new Queen("black"));
-        squares[0][4] = new Square(0, 4, new King("black"));
+        squares[0][4] = new Square(0, 4, new King("black", 0, 4));
         squares[0][5] = new Square(0, 5, new Bishop("black"));
         squares[0][6] = new Square(0, 6, new Knight("black"));
         squares[0][7] = new Square(0, 7, new Rook("black"));
@@ -117,7 +100,7 @@ public class Board {
         squares[7][1] = new Square(7, 1, new Knight("white"));
         squares[7][2] = new Square(7, 2, new Bishop("white"));
         squares[7][3] = new Square(7, 3, new Queen("white"));
-        squares[7][4] = new Square(7, 4, new King("white"));
+        squares[7][4] = new Square(7, 4, new King("white", 7, 4));
         squares[7][5] = new Square(7, 5, new Bishop("white"));
         squares[7][6] = new Square(7, 6, new Knight("white"));
         squares[7][7] = new Square(7, 7, new Rook("white"));

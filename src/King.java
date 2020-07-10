@@ -1,23 +1,12 @@
-
-// package com.gamepieces;
-// import java.util.List;
-
 public class King extends Piece {
-    // final public static Piece B_KING = new King("King", "black");
-    // final public static Piece W_KING = new King("King", "white");
-    // private String name;
-    // private String color;
+
     Type type;
 
-    protected King(String color) {
+    protected King(String color, int x, int y) {
+        // protected King(String color) {
         super(color);
         type = Type.KING;
         name = "KING";
-        // if (color.equals("white"))
-
-        // else {
-        //     name = "bPaw";
-        // }
     }
 
     /*
@@ -61,32 +50,6 @@ public class King extends Piece {
             return true;
         }
         return false;
-    }/////////////////must prevent moving into check
-
-    public void select() {
-    }
-
-    // private King(String name, String color) {
-    //     this.color = color;
-    //     this.name = name;
-    // }
-
-    // public String getName() {
-    //     return this.name;
-    // }
-
-    // public String getColor() {
-    //     return this.color;
-    // }
-
-    // public void select() {
-    // }
-
-    // public void move() {
-    // }
-
-    // public List<String> possibleMoves() {
-    //     return moves;
-    // }
+    }/////////////////must prevent moving into check  
 
 }

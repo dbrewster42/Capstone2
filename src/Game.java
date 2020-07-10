@@ -8,71 +8,37 @@ public class Game {
     // private Player player2;
     private static Scanner scanner = new Scanner(System.in);
     static List<String> moves = new ArrayList<String>();
-    static Piece[] white = new Piece[16];
-    static Piece[] black = new Piece[16];
+    // static Piece[] white = new Piece[16];
+    // static Piece[] black = new Piece[16];
     static Player player1, player2;
+    static boolean isFirst = true;
+    static boolean active = true;
 
     /*
-    ************** One Time Initalization of First Player ****************
+    ************** Initalization of Players ****************
     */
-    public static Player createPlayer1() {
-        System.out.println("Player1, please enter your name");
+    public static Player createPlayer() {
+
+        System.out.println("Player, please enter your name");
         String name = scanner.nextLine();
-        Player player1 = new Player(name, white);
-        System.out.println("It's nice to meet you " + name);
-        return player1;
-    }
-
-    /*
-    ************** One Time Initalization of Second Player ****************
-    */
-    public static Player createPlayer2() {
-        System.out.println("Player2, please enter your name");
-        String name2 = scanner.nextLine();
-        Player player2 = new Player(name2, black);
-        System.out.println("I have heard of you " + name2
-                + ", they say you do not treat your electronics with care. I hope you lose, jerk.");
-        return player2;
-    }
-
-    /*
-    ************** One Time Initalization of All Pieces ****************
-    */
-    public static void createPieces() {
-        int count = 0;
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 8; j++) {
-                // System.out.println(Board.squares[i][j].printPiece());
-                black[count] = Board.squares[i][j].getPiece();
-                count++;
-            }
+        Player player = new Player(name, isFirst);
+        if (isFirst) {
+            System.out.println("It's nice to meet you " + name);
+        } else {
+            // Player player = new Player(name, false);
+            System.out.println("I have heard of you " + name
+                    + ", they say you do not treat your electronics with care. I hope you lose, jerk.");
         }
-        count = 0;
-        for (int i = 6; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                white[count] = Board.squares[i][j].getPiece();
-                count++;
-            }
-        }
+        isFirst = false;
+        return player;
     }
-
-    /*
-    ************** Prints Your Team's Available Pieces ****************
-    //// I could jazz it up so that it is a count of each Piece Type
-    *********duplicate*************
-    */
-    // public static void getPieces(Piece[] team) {
-    //     for (Piece i : team) {
-    //         System.out.print(i.getType() + ", ");
-    //     }
-    //     System.out.println("");
-    // }
 
     /*
     ************** Get other Team ****************
     */
     public static Player getOtherTeam(Player player) {
-        if (player == player1) {
+        // if (player == player1) {
+        if (player.getColor()) {
             return player2;
         } else {
             return player1;
@@ -83,9 +49,12 @@ public class Game {
     ************** Prints All Moves ****************
     */
     public static void printMoves() {
+        int count = 1;
         for (String i : moves) {
-            System.out.println(i);
+            System.out.println(count + ". " + i);
+            count++;
         }
+        System.out.println(" ");
     }
 
     /*
@@ -93,10 +62,12 @@ public class Game {
     */
     public static void preSelect(Player player, Board gameboard) {
         System.out.println();
-        System.out.println(
-                player.getName() + ", it is your turn. Type in 999 to display a list of all the remaining pieces");
+        System.out.println(player.getName() + ", it is your turn.");
+        System.out.println("Enter 999 to display a list of all the remaining pieces");
         System.out.println("Enter 888 to display the detailed board");
+        System.out.println("Enter 777 to display a list of all moves");
         System.out.println("Or enter in a double digit number to select your piece");
+        System.out.println();
         try {
             int action = scanner.nextInt();
             scanner.nextLine();
@@ -228,11 +199,12 @@ public class Game {
         System.out.println();
         Piece piece = Board.squares[x][y].getPiece();
         System.out.println(player.getName() + ", you have selected your " + piece.getType());
-        System.out.println("Type in 999 to select a different piece");
+        System.out.println("Enter 999 to select a different piece");
         System.out.println("Enter 888 to display the detailed board");
-        System.out.println(
-                "If you have selected a Rook and are in a valid Castling Condition, you may select 777 to castle");
+        System.out.println("Enter 777 to display a list of all moves");
+        System.out.println("Enter 333 to castle if you have selected a Rook and are in a valid Castling Condition");
         System.out.println("Or type in the double digit number tile of your piece's destination");
+        System.out.println();
         try {
             int action = scanner.nextInt();
             scanner.nextLine();
@@ -241,6 +213,8 @@ public class Game {
             } else if (action == 888) {
                 gameboard.showDetailedBoard();
             } else if (action == 777) {
+                printMoves();
+            } else if (action == 333) {
                 if (canCastle(player, x, y, gameboard)) {
                     System.out.println("CASTLE!");
                     doCastle(player, x, y, gameboard);
@@ -279,7 +253,6 @@ public class Game {
         int endY = action % 10;
         if (piece.isValidMove(x, y, endX, endY)) {
             if (Board.squares[endX][endY].hasPiece()) {
-                // System.out.println("Well Then");
                 if (player.hasPiece(Board.squares[endX][endY].getPiece())) {
                     System.out.println("Invalid choice. You already have a piece there!");
                     preMove(player, x, y, gameboard);
@@ -287,23 +260,25 @@ public class Game {
             }
             Type type = piece.getType();
             System.out.println(type + " whoopee ------------");
-            // Move move = new Move(player, type, x, y, endX, endY);
             String move = player.getName() + "'s " + type + " has moved from " + x + "" + y + " to " + endX + "" + endY;
+            if (type == Type.PAWN) {
+                if (endX == 0 || endX == 7) {
+                    move += " and is promoted to a QUEEN";
+                    piece = player.pawnPromotion(piece);
+                }
+            }
             //moves from old spot
             Board.squares[x][y].setPiece(null);
             /*
-            ****** checks if a capture took place ******
+            ****** checks if a capture took place and if so, sets enemy piece to null ******
             */
             if (Board.squares[endX][endY].hasPiece()) {
                 Piece capturedPiece = Board.squares[endX][endY].getPiece();
-                Type capturedType = capturedPiece.getType();
                 Player otherPlayer = getOtherTeam(player);
-                move = move + " and has captured " + otherPlayer.getName() + "'s " + capturedType + "!";
+                move = move + " and has captured " + otherPlayer.getName() + "'s " + capturedPiece.getType() + "!";
+                // otherPlayer.team = otherPlayer.killPiece(capturedPiece);
                 otherPlayer.killPiece(capturedPiece);
             }
-            // else {
-            //     moves.add(move);
-            // }
             moves.add(move);
             System.out.println(move);
             ///moves to new spot
@@ -317,18 +292,14 @@ public class Game {
 
     public static void main(String[] args) {
         Board gameboard = Board.boardConstructor();
-        createPieces();
-        boolean active = true;
-        player1 = createPlayer1();
-        player2 = createPlayer2();
+        player1 = createPlayer();
+        player2 = createPlayer();
         System.out.println();
         System.out.println(
                 "Select your piece by typing in a double digit number. The first digit is the vertical coordinate, the second digit is the horizontal like so-");
         gameboard.showDetailedBoard();
-        // getPieces(black);      
         System.out.println("You can type 888 into the console at any time to see this detailed board");
         while (active) {
-            System.out.println("WE BE THE GG");
             preSelect(player1, gameboard);
             gameboard.showBoard();
             preSelect(player2, gameboard);
