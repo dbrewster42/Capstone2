@@ -1,13 +1,9 @@
 public class Knight extends Piece {
-    // final public static Piece B_Knight = new Knight("Knight", "black");
-    // final public static Piece W_Knight = new Knight("Knight", "white");
-    // private String name;
-    // private String color;
-    Type type;
+    private Type type;
+    private String color;
+    private String name;
 
     protected Knight(String color) {
-        // this.color = color;
-        // this.name = name;
         super(color);
         type = Type.KNIGHT;
         if (color.equals("white"))
@@ -16,6 +12,31 @@ public class Knight extends Piece {
             name = "KniB";
         }
     }
+
+    // /*
+    // **********Returns X ************
+    // */
+    // @Override
+    // public int getX() {
+    //     return this.x;
+    // }
+
+    // /*
+    // **********Returns Y ************
+    // */
+    // @Override
+    // public int getY() {
+    //     return this.y;
+    // }
+
+    // /*
+    // **********Sets X and Y ************
+    // */
+    // @Override
+    // public void setXY(int x, int y) {
+    //     this.x = x;
+    //     this.y = y;
+    // }
 
     /*
     **********Returns Name ************
@@ -45,7 +66,7 @@ public class Knight extends Piece {
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
     @Override
-    public boolean canCheck() {
+    public boolean canCheck(int x, int y, int kingX, int kingY) {
         return false;
     }
 

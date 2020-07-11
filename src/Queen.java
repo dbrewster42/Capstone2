@@ -1,5 +1,7 @@
 public class Queen extends Piece {
-    Type type;
+    private Type type;
+    private String color;
+    private String name;
 
     protected Queen(String color) {
         super(color);
@@ -10,6 +12,31 @@ public class Queen extends Piece {
             name = "QUEB";
         }
     }
+
+    // /*
+    // **********Returns X ************
+    // */
+    // @Override
+    // public int getX() {
+    //     return this.x;
+    // }
+
+    // /*
+    // **********Returns Y ************
+    // */
+    // @Override
+    // public int getY() {
+    //     return this.y;
+    // }
+
+    // /*
+    // **********Sets X and Y ************
+    // */
+    // @Override
+    // public void setXY(int x, int y) {
+    //     this.x = x;
+    //     this.y = y;
+    // }
 
     /*
     **********Returns Name ************
@@ -39,7 +66,7 @@ public class Queen extends Piece {
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
     @Override
-    public boolean canCheck() {
+    public boolean canCheck(int x, int y, int kingX, int kingY) {
         return false;
     }
 

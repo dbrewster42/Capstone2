@@ -1,9 +1,9 @@
 public class Bishop extends Piece {
     // final public static Piece B_Bishop = new Bishop("Bishop", "black");
-    // final public static Piece W_Bishop = new Bishop("Bishop", "white");
-    // private String name;
-    // private String color;
-    Type type;
+    // final public static Piece W_Bishop = new Bishop("Bishop", "white");    
+    private Type type;
+    private String color;
+    private String name;
 
     protected Bishop(String color) {
         super(color);
@@ -19,6 +19,31 @@ public class Bishop extends Piece {
         //     name = "\u265D";
         // }
     }
+
+    // /*
+    // **********Returns X ************
+    // */
+    // @Override
+    // public int getX() {
+    //     return this.x;
+    // }
+
+    // /*
+    // **********Returns Y ************
+    // */
+    // @Override
+    // public int getY() {
+    //     return this.y;
+    // }
+
+    // /*
+    // **********Sets X and Y ************
+    // */
+    // @Override
+    // public void setXY(int x, int y) {
+    //     this.x = x;
+    //     this.y = y;
+    // }
 
     /*
     **********Returns Name ************
@@ -48,7 +73,7 @@ public class Bishop extends Piece {
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
     @Override
-    public boolean canCheck() {
+    public boolean canCheck(int x, int y, int kingX, int kingY) {
         return false;
     }
 
@@ -63,7 +88,7 @@ public class Bishop extends Piece {
         int width = x - endX;
         int length = y - endY;
         if (Math.abs(width) != Math.abs(length)) {
-            System.out.println("Oh you Bishop " + Math.abs(width) + "" + Math.abs(length));
+            // System.out.println("Oh you Bishop " + Math.abs(width) + "" + Math.abs(length));
             return false;
         }
 

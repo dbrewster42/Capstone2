@@ -1,5 +1,3 @@
-
-// import java.util.stream.*;
 import java.util.Arrays;
 
 public class Player {
@@ -9,7 +7,7 @@ public class Player {
     Piece[] team;
     private boolean isWhite;
 
-    public Player(String playerName, boolean isWhite) {
+    private Player(String playerName, boolean isWhite) {
         name = playerName;
         this.isWhite = isWhite;
         if (isWhite) {
@@ -17,6 +15,21 @@ public class Player {
         } else {
             team = createPieces(0);
         }
+    }
+
+    /*
+    ************** Initalization of Players ****************
+    */
+    public static Player createPlayer(String name, boolean isWhite) {
+
+        Player player = new Player(name, isWhite);
+        if (isWhite) {
+            System.out.println("I have heard of you " + name
+                    + ", they say you do not treat your electronics with care. I hope you lose, jerk.");
+        } else {
+            System.out.println("It's nice to meet you " + name);
+        }
+        return player;
     }
 
     /*
@@ -34,13 +47,6 @@ public class Player {
             }
         }
         return team;
-        // count = 0;
-        // for (int i = 6; i < 8; i++) {
-        //     for (int j = 0; j < 8; j++) {
-        //         white[count] = Board.squares[i][j].getPiece();
-        //         count++;
-        //     }
-        // }
     }
 
     /*
@@ -82,6 +88,14 @@ public class Player {
             return result;
         };
         return doIt.doesHave(team);
+    }
+
+    public King getKing() {
+        // Piece King = Arrays.asList(team).filter(x -> x.getType() == Type.KING).findFirst();
+        // Piece King = Arrays.stream(team).filter(x -> x.equals(King)).findFirst();
+        Piece theKing = Arrays.stream(team).filter(x -> x.getType() == Type.KING).findFirst().get();
+        King king = (King) theKing;
+        return king;
     }
 
     /*
@@ -128,10 +142,10 @@ public class Player {
     //     piece = null;
     // }
     public void killPiece(Piece piece) {
-        System.out.println("HI GUY");
+        // System.out.println("HI GUY");
         int count = 0;
-        for (Piece i : team) {
-            if (i.getType() == piece.getType()) {
+        for (Piece candidate : team) {
+            if (candidate.equals(piece)) {
                 break;
             }
             count++;
@@ -143,17 +157,9 @@ public class Player {
     /*
     **********Changes Pawn to Queen/ Change Piece/ Add Piece ************
     */
-    public Piece pawnPromotion(Piece piece) {
+    public Piece pawnPromotion(Piece piece, int endX, int endY) {
         // if (piece.getType() == Type.PAWN);
         String color;
-        // if (isWhite) {
-        //     color = "white";
-        //     Queen queen = new Queen("white");
-        //     piece = queen;
-        // } else {
-        //     Queen queen = new Queen("black");
-        //     piece = queen;
-        // }
         if (isWhite) {
             color = "white";
         } else {
@@ -161,8 +167,8 @@ public class Player {
         }
         Queen queen = new Queen(color);
         int count = 0;
-        for (Piece i : team) {
-            if (i.getType() == piece.getType()) {
+        for (Piece candidate : team) {
+            if (candidate.equals(piece)) {
                 break;
             }
             count++;

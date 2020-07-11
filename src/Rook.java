@@ -1,19 +1,9 @@
-// import java.util.List;
-
 public class Rook extends Piece {
-    // final public static Piece B_Rook = new Rook("Rook", "black");
-    // final public static Piece W_Rook = new Rook("Rook", "white");
-    // private String name;
-    // private String color;
-    // private int x, y;
-    // private int[] position = new int[2];
-    // private String name;
-    // public List<Move> moves;
-    Type type;
+    private Type type;
+    private String color;
+    private String name;
 
     protected Rook(String color) {
-        // this.color = color;
-        // this.name = name;
         super(color);
         type = Type.ROOK;
         if (color.equals("white"))
@@ -22,6 +12,31 @@ public class Rook extends Piece {
             name = "RokB";
         }
     }
+
+    /*
+    **********Returns X ************
+    */
+    // @Override
+    // public int getX() {
+    //     return this.x;
+    // }
+
+    // /*
+    // **********Returns Y ************
+    // */
+    // @Override
+    // public int getY() {
+    //     return this.y;
+    // }
+
+    // /*
+    // **********Sets X and Y ************
+    // */
+    // @Override
+    // public void setXY(int x, int y) {
+    //     this.x = x;
+    //     this.y = y;
+    // }
 
     // @Override
     // public int[] getPosition() {
@@ -60,7 +75,7 @@ public class Rook extends Piece {
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
     @Override
-    public boolean canCheck() {
+    public boolean canCheck(int x, int y, int kingX, int kingY) {
         return false;
     }
 

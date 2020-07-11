@@ -1,12 +1,42 @@
 public class King extends Piece {
-
-    Type type;
+    private Type type;
+    private String color;
+    private String name;
+    private int x;
+    private int y;
 
     protected King(String color, int x, int y) {
         // protected King(String color) {
         super(color);
+        this.x = x;
+        this.y = y;
         type = Type.KING;
         name = "KING";
+    }
+
+    /*
+    **********Returns X ************
+    */
+    // @Override
+    public int getX() {
+        return this.x;
+    }
+
+    /*
+    **********Returns Y ************
+    */
+    // @Override
+    public int getY() {
+        return this.y;
+    }
+
+    /*
+    **********Sets X and Y ************
+    */
+    // @Override
+    public void setXY(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     /*
@@ -37,7 +67,7 @@ public class King extends Piece {
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
     @Override
-    public boolean canCheck() {
+    public boolean canCheck(int x, int y, int kingX, int kingY) {
         return false;
     }
 

@@ -8,20 +8,34 @@ public abstract class Piece {
     // final public static Piece W_Queen = new Queen("Queen", "white");
     public String name;
     public String color;
-    public boolean alive = true;
+    // public boolean alive = true;
     // int x, y;
 
     Piece(String color) {
         this.color = color;
     }
 
-    // Piece(int x, int y, String color) {
+    // Piece(String color, int x, int y) {
+    //     this.color = color;
     //     this.x = x;
     //     this.y = y;
-    //     this.color = color;
     // }
-    // public void setAlive() {
-    // }
+
+    // /*
+    // **********Returns X ************
+    // */
+    // public abstract int getX();
+
+    // /*
+    // **********Returns Y ************
+    // */
+    // public abstract int getY();
+
+    // /*
+    // **********Sets X and Y ************
+    // */
+    // public abstract void setXY(int x, int y);
+
     /*
     **********Returns Team ************
     */
@@ -32,23 +46,39 @@ public abstract class Piece {
     */
     public abstract String getName();
 
-    // public abstract void select();
     /*
     **********Returns Type(for printing) ************
     */
     public abstract Type getType();
 
-    public abstract boolean canCheck();
+    /*
+    **********Returns Type(for printing) ************
+    */
+    public abstract boolean canCheck(int x, int y, int kingX, int kingY);
 
     /*
     **********Returns Whether Move is Accepted Based on the piece's movement ability************
     */
     public abstract boolean isValidMove(int x, int y, int endX, int endY);
 
-    // public abstract int[] getPosition();
-
-    // public abstract List<Move> calculateMoves();
-
-    // public abstract int[][] drawPath();
+    @Override
+    public boolean equals(Object comparator) {
+        if (comparator == null) {
+            return false;
+        }
+        if (Piece.class != comparator.getClass()) {
+            return false;
+        }
+        Piece pieceComparator = (Piece) comparator;
+        boolean equals = pieceComparator.getType().equals(this.getType());
+        equals &= pieceComparator.getColor().equals(this.getColor());
+        return equals;
+    }
 
 }
+// public abstract int[] getPosition();
+
+// public abstract List<Move> calculateMoves();
+
+// public abstract int[][] drawPath();
+// public abstract void select();

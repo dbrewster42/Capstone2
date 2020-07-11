@@ -7,8 +7,11 @@ public class Pawn extends Piece {
     // private int[] position = new int[2];
     // List<String> moves;    
     // public String name;
-    Type type;
+    private Type type;
+    private String color;
+    private String name;
 
+    // protected Pawn(String color) {
     protected Pawn(String color) {
         // this.color = color;
         // this.name = name;
@@ -22,6 +25,31 @@ public class Pawn extends Piece {
             // name = "\u265F";
         }
     }
+
+    // /*
+    // **********Returns X ************
+    // */
+    // @Override
+    // public int getX() {
+    //     return this.x;
+    // }
+
+    // /*
+    // **********Returns Y ************
+    // */
+    // @Override
+    // public int getY() {
+    //     return this.y;
+    // }
+
+    // /*
+    // **********Sets X and Y ************
+    // */
+    // @Override
+    // public void setXY(int x, int y) {
+    //     this.x = x;
+    //     this.y = y;
+    // }
 
     /*
     **********Returns Name ************
@@ -51,7 +79,7 @@ public class Pawn extends Piece {
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
     @Override
-    public boolean canCheck() {
+    public boolean canCheck(int x, int y, int kingX, int kingY) {
         return false;
     }
 

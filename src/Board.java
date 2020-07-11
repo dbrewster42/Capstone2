@@ -104,8 +104,52 @@ public class Board {
         squares[7][5] = new Square(7, 5, new Bishop("white"));
         squares[7][6] = new Square(7, 6, new Knight("white"));
         squares[7][7] = new Square(7, 7, new Rook("white"));
+        // squares[7][0] = new Square(7, 0, new Rook("white", 7, 0));
+        // squares[7][1] = new Square(7, 1, new Knight("white", 7, 1));
+        // squares[7][2] = new Square(7, 2, new Bishop("white", 7, 2));
+        // squares[7][3] = new Square(7, 3, new Queen("white", 7, 3));
+        // squares[7][4] = new Square(7, 4, new King("white", 7, 4));
+        // squares[7][5] = new Square(7, 5, new Bishop("white", 7, 5));
+        // squares[7][6] = new Square(7, 6, new Knight("white", 7, 6));
+        // squares[7][7] = new Square(7, 7, new Rook("white", 7, 7));
 
         return squares;
+    }
+
+    /*
+    ************** Saves State for Option to undo****************
+    */
+    public Memento saveToMemento(Board gameboard) {
+        System.out.println("Saving Board to Memento");
+        return new Memento(gameboard);
+    }
+
+    /*
+    ************** Restores State (undoes) ****************
+    */
+    public void restoreFromMemento(Memento memento) {
+        Board gameboard = memento.getSavedBoard();
+        System.out.println("Board restored from Memento.");
+        // return gameboard;
+    }
+
+    /*
+    ************** Memento Design Patterns Saves Each Turn to enable an Undo ****************
+    */
+    public class Memento {
+        private Board gameboard;
+        // private Board gameboard = Board.boardConstructor();
+        // Piece[] white;
+        // Piece[] black;
+
+        public Memento(Board gameboard) {
+            this.gameboard = gameboard;
+        }
+
+        public Board getSavedBoard() {
+            return gameboard;
+        }
+
     }
 
 }
