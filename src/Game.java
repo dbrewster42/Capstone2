@@ -12,8 +12,9 @@ public class Game {
     // static Piece[] black = new Piece[16];
     static Player player1, player2;
     static boolean isFirst = true;
-    static boolean active = true;
-    static boolean check = false;
+    // static boolean active = true;
+    // static boolean check = false;
+    static List<Board.Memento> savedBoards = new ArrayList<Board.Memento>();
 
     /*
     ************** Get other Team ****************
@@ -123,8 +124,14 @@ public class Game {
         System.out.println("Enter 999 to display a list of all the remaining pieces");
         System.out.println("Enter 888 to display the detailed board");
         System.out.println("Enter 777 to display a list of all moves");
+        System.out.println("Enter 333 to time travel (undo a move)");
+        System.out.println("Enter 1111 to forfeit");
         System.out.println("Or enter in a double digit number to select your piece");
         System.out.println();
+        if (Status.check) {
+            System.out.println(player.getName() + ", you have been put into check! You must move out of check");
+            System.out.println();
+        }
         try {
             int action = scanner.nextInt();
             scanner.nextLine();
@@ -136,19 +143,52 @@ public class Game {
                 gameboard.showDetailedBoard();
             } else if (action == 777) {
                 printMoves();
+            } else if (action == 1111) {
+                System.out.println("Are you sure that you wish to forfeit?");
+                System.out.println("Type yes or hit any other key to continue with the game");
+                String answer = scanner.nextLine();
+                if (answer.equals("yes")) {
+                    System.out.println("Forfeiting...");
+                    Status.active = false;
+                    return;
+                }
+                preSelect(player, gameboard);
+                return;
+            } else if (action == 333) {
+                System.out.println("Enter how many turns you wish to undo");
+                try {
+                    int num = scanner.nextInt();
+                    scanner.nextLine();
+                    num *= 2;
+                    int mementoSize = savedBoards.size();
+                    int travel = mementoSize - num;
+                    System.out.println(mementoSize + "travel: " + travel);
+                    Board newBoard = gameboard.restoreFromMemento(savedBoards.get(travel));
+                    newBoard.showDetailedBoard();
+                    preSelect(player, newBoard);
+                    return;
+                } catch (Exception e) {
+                    System.out.println("You must enter a number. No time travel for you!" + e);
+                    preSelect(player, gameboard);
+                    return;
+                }
             } else {
                 if (action > 77 || action < 0) {
                     System.out.println("That selection is not a part of the board. Get in the game!");
                     preSelect(player, gameboard);
+                    return;
                 }
                 // int pieceSelection = action;
                 selectPiece(player, gameboard, action);
                 return;
             }
             preSelect(player, gameboard);
+            return;
         } catch (Exception e) {
-            System.out.println("You must enter a number");
+            System.out.println("You must enter a number " + e);
+            e.printStackTrace();
             preSelect(player, gameboard);
+            return;
         }
     }
 
@@ -197,10 +237,13 @@ public class Game {
             scanner.nextLine();
             if (action == 999) {
                 preSelect(player, gameboard);
+                return;
             } else if (action == 888) {
                 gameboard.showDetailedBoard();
+                // return;
             } else if (action == 777) {
                 printMoves();
+                // return;
             } else if (action == 333) {
                 if (isValidCastle(player, x, y, gameboard)) {
                     // System.out.println("CASTLE!");
@@ -210,20 +253,26 @@ public class Game {
                     System.out.println("Valid castling conditions were not met");
                 }
             } else {
+                // System.out.println("We're here and we're hustling");
                 if (action > 77 || action < 0) {
                     System.out.println(
                             "You must enter a double digit number. The first digit is the piece's height, the second is the width");
-                    System.out.println("Hello");
+                    // System.out.println("Hello");
                     preMove(player, x, y, gameboard);
+                    return;
                 }
-                // int pieceSelection = action;
-                movePiece(player, x, y, gameboard, action);
+                int pieceSelection = action;
+                // System.out.println(player.getName() + " " + x + " " + y + " " + action);
+                movePiece(player, x, y, gameboard, pieceSelection);
                 return;
             }
-            // preMove(player, x, y, gameboard);
-        } catch (Exception e) {
-            System.out.println("You must enter a number dummy");
             preMove(player, x, y, gameboard);
+            return;
+        } catch (Exception e) {
+            System.out.println("You must enter a number dummy ");
+            e.printStackTrace();
+            preMove(player, x, y, gameboard);
+            return;
         }
 
     }
@@ -236,7 +285,7 @@ public class Game {
         Square initial = Board.squares[x][y];
         Piece piece = initial.getPiece();
         int action = pieceSelection;
-        System.out.println(action);
+        // System.out.println(action + " " + piece.getName() + " " + initial.getX());
         int endX = action / 10;
         int endY = action % 10;
         if (piece.isValidMove(x, y, endX, endY)) {
@@ -244,6 +293,17 @@ public class Game {
                 if (player.hasPiece(Board.squares[endX][endY].getPiece())) {
                     System.out.println("Invalid choice. You already have a piece there!");
                     preMove(player, x, y, gameboard);
+                    return;
+                }
+            }
+            if (Status.check) {
+                if (Status.defeatCheck(player, piece, gameboard, endX, endY)) {
+                    System.out.println(player.getName() + "has moved out of check!");
+                    Status.check = false;
+                } else {
+                    System.out.println("Invalid move. You must move out of check!");
+                    preMove(player, x, y, gameboard);
+                    return;
                 }
             }
             Type type = piece.getType();
@@ -255,14 +315,12 @@ public class Game {
                     piece = player.pawnPromotion(piece, endX, endY);
                 }
             }
-
             /*
             ****** checks if a capture took place and if so, sets enemy piece to null ******
             */
             Player otherPlayer = getOtherTeam(player);
             if (Board.squares[endX][endY].hasPiece()) {
                 Piece capturedPiece = Board.squares[endX][endY].getPiece();
-                ;
                 move = move + " and has captured " + otherPlayer.getName() + "'s " + capturedPiece.getType() + "!";
                 // otherPlayer.team = otherPlayer.killPiece(capturedPiece);
                 otherPlayer.killPiece(capturedPiece);
@@ -273,38 +331,21 @@ public class Game {
             Board.squares[x][y].setPiece(null);
             ///moves to new spot
             gameboard.getSquare(endX, endY).setPiece(piece);
+            //updates King's location if King moved
             if (piece.getType().equals(Type.KING)) {
                 King king = (King) piece;
                 king.setXY(endX, endY);
             }
-            if (didCheck(player, piece, gameboard)) {
+            if (Status.didCheck(player, piece, gameboard, endX, endY)) {
                 move += otherPlayer.getName() + " is now in check!";
                 System.out.println(otherPlayer.getName() + ", you must move out of check.");
-                check = true;
+                Status.check = true;
             }
             return;
         } else {
             System.out.println("Invalid move");
             preMove(player, x, y, gameboard);
         }
-    }
-
-    /*
-    ************** Checks for Check! After every move it scans the pieces to see if it is a check ****************
-    */
-    public static boolean didCheck(Player player, Piece piece, Board gameboard) {
-        // // Piece[] team = player.getTeam();
-        // // for (Piece i : team){
-        // //     if (i.canCheck(endX, endY))
-        // // }
-        // Player otherTeam = getOtherTeam(player);
-        // Piece King = otherTeam.getKing();
-        // int endX = King.getX();
-        // int endY = King.getY();
-        // if (piece.canCheck(endX, endY)) {
-        //     return true;
-        // }
-        return false;
     }
 
     public void run() {
@@ -316,10 +357,13 @@ public class Game {
                 "Select your piece by typing in a double digit number. The first digit is the vertical coordinate, the second digit is the horizontal like so-");
         gameboard.showDetailedBoard();
         System.out.println("You can type 888 into the console at any time to see this detailed board");
-        List<Board.Memento> savedBoards = new ArrayList<Board.Memento>();
-        while (active) {
+        while (Status.active) {
+            // try {
+            //     preSelect(player1, gameboard);
+            // } catch (Throwable e) {
+            //     e.printStackTrace();
+            // }
             preSelect(player1, gameboard);
-            // Memento newMemento = saveToMemento(gameboard);
             savedBoards.add(gameboard.saveToMemento(gameboard));
             gameboard.showBoard();
             preSelect(player2, gameboard);

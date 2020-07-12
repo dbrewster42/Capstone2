@@ -6,14 +6,14 @@ public abstract class Piece {
     // final public static Piece W_Rook = new Rook("Rook", "white");
     // final public static Piece B_Queen = new Queen("Queen", "black");
     // final public static Piece W_Queen = new Queen("Queen", "white");
-    public String name;
+    // public String name;
     public String color;
     // public boolean alive = true;
     // int x, y;
 
-    Piece(String color) {
-        this.color = color;
-    }
+    // Piece(String color) {
+    //     this.color = color;
+    // }
 
     // Piece(String color, int x, int y) {
     //     this.color = color;
@@ -61,19 +61,19 @@ public abstract class Piece {
     */
     public abstract boolean isValidMove(int x, int y, int endX, int endY);
 
-    @Override
-    public boolean equals(Object comparator) {
-        if (comparator == null) {
-            return false;
-        }
-        if (Piece.class != comparator.getClass()) {
-            return false;
-        }
-        Piece pieceComparator = (Piece) comparator;
-        boolean equals = pieceComparator.getType().equals(this.getType());
-        equals &= pieceComparator.getColor().equals(this.getColor());
-        return equals;
-    }
+    // @Override
+    // public boolean equals(Object comparator) {
+    //     if (comparator == null) {
+    //         return false;
+    //     }
+    //     if (Piece.class != comparator.getClass()) {
+    //         return false;
+    //     }
+    //     Piece pieceComparator = (Piece) comparator;
+    //     boolean equals = pieceComparator.getType().equals(this.getType());
+    //     equals &= pieceComparator.getName().equals(this.getName());
+    //     return equals;
+    // }
 
 }
 // public abstract int[] getPosition();

@@ -4,13 +4,15 @@ public class Knight extends Piece {
     private String name;
 
     protected Knight(String color) {
-        super(color);
+        // super(color);
+        this.color = color;
         type = Type.KNIGHT;
         if (color.equals("white"))
             name = "wKni";
         else {
             name = "KniB";
         }
+        // System.out.println(getColor());
     }
 
     // /*

@@ -7,7 +7,7 @@ public class King extends Piece {
 
     protected King(String color, int x, int y) {
         // protected King(String color) {
-        super(color);
+        this.color = color;
         this.x = x;
         this.y = y;
         type = Type.KING;

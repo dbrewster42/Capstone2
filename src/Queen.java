@@ -4,7 +4,7 @@ public class Queen extends Piece {
     private String name;
 
     protected Queen(String color) {
-        super(color);
+        this.color = color;
         type = Type.QUEEN;
         if (color.equals("white"))
             name = "wQUE";

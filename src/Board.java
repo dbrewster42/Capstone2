@@ -127,10 +127,10 @@ public class Board {
     /*
     ************** Restores State (undoes) ****************
     */
-    public void restoreFromMemento(Memento memento) {
+    public Board restoreFromMemento(Memento memento) {
         Board gameboard = memento.getSavedBoard();
         System.out.println("Board restored from Memento.");
-        // return gameboard;
+        return gameboard;
     }
 
     /*
@@ -138,9 +138,6 @@ public class Board {
     */
     public class Memento {
         private Board gameboard;
-        // private Board gameboard = Board.boardConstructor();
-        // Piece[] white;
-        // Piece[] black;
 
         public Memento(Board gameboard) {
             this.gameboard = gameboard;

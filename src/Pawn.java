@@ -13,9 +13,8 @@ public class Pawn extends Piece {
 
     // protected Pawn(String color) {
     protected Pawn(String color) {
-        // this.color = color;
-        // this.name = name;
-        super(color);
+        this.color = color;
+        // super(color);
         type = Type.PAWN;
         if (color.equals("white"))
             name = "wPaw";
@@ -25,31 +24,6 @@ public class Pawn extends Piece {
             // name = "\u265F";
         }
     }
-
-    // /*
-    // **********Returns X ************
-    // */
-    // @Override
-    // public int getX() {
-    //     return this.x;
-    // }
-
-    // /*
-    // **********Returns Y ************
-    // */
-    // @Override
-    // public int getY() {
-    //     return this.y;
-    // }
-
-    // /*
-    // **********Sets X and Y ************
-    // */
-    // @Override
-    // public void setXY(int x, int y) {
-    //     this.x = x;
-    //     this.y = y;
-    // }
 
     /*
     **********Returns Name ************
@@ -89,12 +63,13 @@ public class Pawn extends Piece {
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
         int direction = endX - x;
-        if (this.color.equals("white")) {
+        // System.out.println(this.color + this.type + this.name);
+        if (this.name.equals("wPaw")) {
+            // System.out.println("WHITIES");
             direction = x - endX;
         }
-        // else {
-        //     direction = endX -x;
-        // }
+        // System.out.println(direction);
+
         if (y - endY != 0) {
             if (Math.abs(y - endY) == 1) {
                 if (direction == 1)
@@ -105,6 +80,12 @@ public class Pawn extends Piece {
             }
             return false;
         }
+        if (direction == 1) {
+            if (Board.squares[endX][endY].hasPiece()) {
+                return false;
+            }
+            return true;
+        }
         if (direction != 1) {
             if (x == 1 && endX == 3 || x == 6 && endX == 4) {
                 if (Board.squares[endX][endY].hasPiece()) {
@@ -114,14 +95,6 @@ public class Pawn extends Piece {
             }
 
             return false;
-        }
-        if (direction == 1) {
-            System.out.println("Howdy");
-            if (Board.squares[endX][endY].hasPiece()) {
-                System.out.println("Hi");
-                return false;
-            }
-            return true;
         }
         return true;
     }
@@ -143,5 +116,28 @@ public class Pawn extends Piece {
     // @Override
     // public int[][] drawPath() {
     // }
+    // /*
+    // **********Returns X ************
+    // */
+    // @Override
+    // public int getX() {
+    //     return this.x;
+    // }
 
+    // /*
+    // **********Returns Y ************
+    // */
+    // @Override
+    // public int getY() {
+    //     return this.y;
+    // }
+
+    // /*
+    // **********Sets X and Y ************
+    // */
+    // @Override
+    // public void setXY(int x, int y) {
+    //     this.x = x;
+    //     this.y = y;
+    // }
 }

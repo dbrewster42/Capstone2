@@ -83,7 +83,8 @@ public class Player {
     public boolean hasPiece(Piece piece) {
         // return Arrays.stream(team).anyMatch(p -> Objects.equals(piece, p));
         lambdaContains doIt = team -> {
-            boolean result = Arrays.stream(team).anyMatch(x -> x.getName() == piece.getName());
+            boolean result = Arrays.stream(team).filter(x -> x != null)
+                    .anyMatch(x -> x.getName().equals(piece.getName()));
             // System.out.println(result);
             return result;
         };
@@ -107,11 +108,7 @@ public class Player {
         int rookCount = 0;
         int knightCount = 0;
         int bishopCount = 0;
-        // for (Piece i : team) {
-        //     System.out.print(i.getType() + ", ");
-        // }
-        // System.out.println("");
-        System.out.println("crickets");
+        // System.out.println("crickets");
         for (Piece i : team) {
             if (i == null)
                 continue;
@@ -138,19 +135,16 @@ public class Player {
     /*
     **********Removes captured piece from team ************
     */
-    // public void killPiece(Piece piece) {
-    //     piece = null;
-    // }
     public void killPiece(Piece piece) {
-        // System.out.println("HI GUY");
         int count = 0;
         for (Piece candidate : team) {
-            if (candidate.equals(piece)) {
+            if (candidate.getType().equals(piece.getType())) {
+                // System.out.println(candidate.getName() + " is here!");
+                team[count] = null;
                 break;
             }
             count++;
         }
-        team[count] = null;
         // return team;
     }
 
@@ -168,7 +162,7 @@ public class Player {
         Queen queen = new Queen(color);
         int count = 0;
         for (Piece candidate : team) {
-            if (candidate.equals(piece)) {
+            if (candidate.getType().equals(piece.getType())) {
                 break;
             }
             count++;

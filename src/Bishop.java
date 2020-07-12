@@ -6,7 +6,7 @@ public class Bishop extends Piece {
     private String name;
 
     protected Bishop(String color) {
-        super(color);
+        this.color = color;
         type = Type.BISHOP;
         if (color.equals("white"))
             name = "wBis";

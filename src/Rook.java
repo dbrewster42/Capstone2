@@ -4,7 +4,7 @@ public class Rook extends Piece {
     private String name;
 
     protected Rook(String color) {
-        super(color);
+        this.color = color;
         type = Type.ROOK;
         if (color.equals("white"))
             name = "wRok";
@@ -13,37 +13,6 @@ public class Rook extends Piece {
         }
     }
 
-    /*
-    **********Returns X ************
-    */
-    // @Override
-    // public int getX() {
-    //     return this.x;
-    // }
-
-    // /*
-    // **********Returns Y ************
-    // */
-    // @Override
-    // public int getY() {
-    //     return this.y;
-    // }
-
-    // /*
-    // **********Sets X and Y ************
-    // */
-    // @Override
-    // public void setXY(int x, int y) {
-    //     this.x = x;
-    //     this.y = y;
-    // }
-
-    // @Override
-    // public int[] getPosition() {
-    //     position[0] = x;
-    //     position[1] = y;
-    //     return position;
-    // }
     /*
     **********Returns Name ************
     */
@@ -87,7 +56,7 @@ public class Rook extends Piece {
         int condition1 = endX - x;
         int condition2 = endY - y;
         if (condition1 == 0 || condition2 == 0) {
-            System.out.println("Boogie boogie");
+            // System.out.println("Boogie boogie");
             int count, check, between;
             // int count = Math.abs(condition1);
             if (condition1 == 0) {
