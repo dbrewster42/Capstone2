@@ -2,8 +2,6 @@ import java.util.Arrays;
 
 public class Player {
     private String name;
-    // private Piece[] white;
-    // private Piece[] black;
     Piece[] team;
     private boolean isWhite;
 
@@ -94,7 +92,8 @@ public class Player {
     public King getKing() {
         // Piece King = Arrays.asList(team).filter(x -> x.getType() == Type.KING).findFirst();
         // Piece King = Arrays.stream(team).filter(x -> x.equals(King)).findFirst();
-        Piece theKing = Arrays.stream(team).filter(x -> x.getType() == Type.KING).findFirst().get();
+        Piece theKing = Arrays.stream(team).filter(x -> x != null).filter(x -> x.getType() == Type.KING).findFirst()
+                .get();
         King king = (King) theKing;
         return king;
     }
@@ -138,6 +137,9 @@ public class Player {
     public void killPiece(Piece piece) {
         int count = 0;
         for (Piece candidate : team) {
+            if (candidate == null) {
+                continue;
+            }
             if (candidate.getType().equals(piece.getType())) {
                 // System.out.println(candidate.getName() + " is here!");
                 team[count] = null;
@@ -162,6 +164,9 @@ public class Player {
         Queen queen = new Queen(color);
         int count = 0;
         for (Piece candidate : team) {
+            if (candidate == null) {
+                continue;
+            }
             if (candidate.getType().equals(piece.getType())) {
                 break;
             }

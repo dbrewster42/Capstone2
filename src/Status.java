@@ -47,27 +47,39 @@ public class Status {
         King king = player.getKing();
         int kingX = king.getX();
         int kingY = king.getY();
+        Piece oldPiece = null;
+        if (Board.squares[endX][endY].hasPiece()) {
+            oldPiece = Board.squares[endX][endY].getPiece();
+        }
         Board.squares[endX][endY].setPiece(piece);
         if (attacker.piece.isValidMove(attacker.x, attacker.y, kingX, kingY)) {
             return false;
         } else {
-            ////need to save prior state first
-            Board.squares[endX][endY].setPiece(null);
+            Board.squares[endX][endY].setPiece(oldPiece);
             return true;
         }
     }
 
     public static boolean isCheckMate(Player player, Board gameboard) {
-        // boolean isWhite = player.getColor();
-        String color = "black";
-        if (player.getColor()) {
-            color = "white";
-        }
-        //     Arrays.stream(team).flatMap(b -> b.getArray().stream())
-        //     .filter(s -> s.hasPiece())
-        //     .filter(s -> s.getPiece().getColor() == color)
-        //     .map(s -> s.getPiece().isValidMove())
-        return true;
+        // // boolean isWhite = player.getColor();
+        // String color = "black";
+        // if (player.getColor()) {
+        //     color = "white";
+        // }
+        // // Piece[] team = player.getTeam();
+        // //can capture attacker
+        // Square[][] squares = gameboard.getSquares();
+        // boolean mate = Arrays.stream(squares).flatMap(board -> b.getSquare().stream()).filter(s -> s.hasPiece())
+        //         .filter(s -> s.getPiece().getColor() == color)
+        //         .map(s -> s.getPiece().isValidMove(s.getX(), s.getY(), attack.x, attack.y)).getFirst();
+        // boolean second = Arrays.stream(Board.squares).flatMap(b -> b.getArray().stream()).filter(s -> s.hasPiece())
+        //         .filter(s -> s.getPiece().getColor() == color)
+        //         .map(s -> s.getPiece().isValidMove(s.getX(), s.getY(), attack.x - 1, attack.y + 1)).getFirst();
+        // boolean third = Arrays.stream(gameboard).flatMap(b -> b.getArray().stream()).filter(s -> s.hasPiece())
+        //         .filter(s -> s.getPiece().getColor() == color)
+        //         .map(s -> s.getPiece().isValidMove(s.getX(), s.getY(), attack.x - 2, attack.y + 2)).getFirst();
+        // return (mate || second || third);
+        return false;
     }
     // public static void storeAttacker(Player player, Piece piece, int x, int y) {}
 

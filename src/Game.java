@@ -149,6 +149,8 @@ public class Game {
                 String answer = scanner.nextLine();
                 if (answer.equals("yes")) {
                     System.out.println("Forfeiting...");
+                    Player otherPlayer = getOtherTeam(player);
+                    System.out.println(otherPlayer.getName() + "Wins! Congratulations on your victory!");
                     Status.active = false;
                     return;
                 }
@@ -298,7 +300,7 @@ public class Game {
             }
             if (Status.check) {
                 if (Status.defeatCheck(player, piece, gameboard, endX, endY)) {
-                    System.out.println(player.getName() + "has moved out of check!");
+                    System.out.println(player.getName() + " has moved out of check!");
                     Status.check = false;
                 } else {
                     System.out.println("Invalid move. You must move out of check!");
@@ -337,8 +339,8 @@ public class Game {
                 king.setXY(endX, endY);
             }
             if (Status.didCheck(player, piece, gameboard, endX, endY)) {
-                move += otherPlayer.getName() + " is now in check!";
-                System.out.println(otherPlayer.getName() + ", you must move out of check.");
+                move += player.getName() + " has put " + otherPlayer.getName() + " in check!";
+                // System.out.println(otherPlayer.getName() + ", you must move out of check.");
                 Status.check = true;
             }
             return;
@@ -357,18 +359,12 @@ public class Game {
                 "Select your piece by typing in a double digit number. The first digit is the vertical coordinate, the second digit is the horizontal like so-");
         gameboard.showDetailedBoard();
         System.out.println("You can type 888 into the console at any time to see this detailed board");
+        Player player = player1;
         while (Status.active) {
-            // try {
-            //     preSelect(player1, gameboard);
-            // } catch (Throwable e) {
-            //     e.printStackTrace();
-            // }
-            preSelect(player1, gameboard);
+            preSelect(player, gameboard);
             savedBoards.add(gameboard.saveToMemento(gameboard));
             gameboard.showBoard();
-            preSelect(player2, gameboard);
-            savedBoards.add(gameboard.saveToMemento(gameboard));
-            gameboard.showBoard();
+            player = getOtherTeam(player);
         }
 
     }

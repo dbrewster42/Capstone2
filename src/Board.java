@@ -21,6 +21,10 @@ public class Board {
         return uni;
     }
 
+    public Square[][] getSquares() {
+        return squares;
+    }
+
     /*
     **********Prints Board to console With Each Square Labeled************
     */

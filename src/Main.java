@@ -4,10 +4,5 @@ public class Main {
 
         Game game = new Game();
         game.run();
-        // try {
-        //     game.run();
-        // } catch (Throwable e) {
-        //     e.printStackTrace();
-        // }
     }
 }
