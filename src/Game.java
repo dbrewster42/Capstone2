@@ -7,7 +7,7 @@ public class Game {
     // private Player player1;
     // private Player player2;
     private static Scanner scanner = new Scanner(System.in);
-    static List<String> moves = new ArrayList<String>();
+    static List<Move> moves = new ArrayList<Move>();
     // static Piece[] white = new Piece[16];
     // static Piece[] black = new Piece[16];
     static Player player1, player2;
@@ -21,7 +21,7 @@ public class Game {
     */
     public static Player getOtherTeam(Player player) {
         // if (player == player1) {
-        if (player.getColor()) {
+        if (player.isWhite()) {
             return player2;
         } else {
             return player1;
@@ -33,11 +33,29 @@ public class Game {
     */
     public static void printMoves() {
         int count = 1;
-        for (String i : moves) {
-            System.out.println(count + ". " + i);
+        for (Move i : moves) {
+            System.out.println(count + ". " + i.getMessage());
             count++;
         }
         System.out.println(" ");
+    }
+
+    /*
+    ************** Prints All Moves ****************
+    */
+    public static void undo(int i) {
+        Move lastMove = moves.get(moves.size() - i);
+        int x = lastMove.getEndX();
+        int y = lastMove.getEndY();
+        int prevX = lastMove.getX();
+        int prevY = lastMove.getY();
+        Board.squares[prevX][prevY].setPiece(lastMove.getPiece());
+        if (lastMove.capture) {
+            Board.squares[x][y].setPiece(lastMove.getCapturedPiece());
+        } else {
+            Board.squares[x][y].setPiece(null);
+        }
+
     }
 
     /*
@@ -100,7 +118,8 @@ public class Game {
             king.setXY(x, y);
             Board.squares[x][0].setPiece(null);
             Board.squares[x][4].setPiece(null);
-            String move = player.getName() + " has performed a long side castle";
+            // String move = player.getName() + " has performed a long side castle";
+            Move move = new Move(player, piece, x, y, x, 3, true);
             moves.add(move);
         } else if (y == 7) {
             Board.squares[x][5].setPiece(piece);
@@ -108,7 +127,8 @@ public class Game {
             king.setXY(x, y);
             Board.squares[x][7].setPiece(null);
             Board.squares[x][4].setPiece(null);
-            String move = player.getName() + " has performed a short side castle";
+            // String move = player.getName() + " has performed a short side castle";
+            Move move = new Move(player, piece, x, y, x, 5, true);
             moves.add(move);
         } else {
             System.out.println("Wow you are tricky");
@@ -124,7 +144,7 @@ public class Game {
         System.out.println("Enter 999 to display a list of all the remaining pieces");
         System.out.println("Enter 888 to display the detailed board");
         System.out.println("Enter 777 to display a list of all moves");
-        System.out.println("Enter 333 to time travel (undo a move)");
+        System.out.println("Enter 444 to undo a move");
         System.out.println("Enter 1111 to forfeit");
         System.out.println("Or enter in a double digit number to select your piece");
         System.out.println();
@@ -156,24 +176,21 @@ public class Game {
                 }
                 preSelect(player, gameboard);
                 return;
-            } else if (action == 333) {
-                System.out.println("Enter how many turns you wish to undo");
-                try {
-                    int num = scanner.nextInt();
-                    scanner.nextLine();
-                    num *= 2;
+            } else if (action == 444) {
+                System.out.println("Are you sure that you wish to undo a move?");
+                System.out.println("Type yes or hit any other key to continue with the game");
+                String answer = scanner.nextLine();
+                if (answer.equals("yes")) {
                     int mementoSize = savedBoards.size();
-                    int travel = mementoSize - num;
-                    System.out.println(mementoSize + "travel: " + travel);
-                    Board newBoard = gameboard.restoreFromMemento(savedBoards.get(travel));
-                    newBoard.showDetailedBoard();
-                    preSelect(player, newBoard);
-                    return;
-                } catch (Exception e) {
-                    System.out.println("You must enter a number. No time travel for you!" + e);
-                    preSelect(player, gameboard);
-                    return;
+                    int travel = mementoSize - 2;
+                    // System.out.println(mementoSize + "travel: " + travel);
+                    gameboard = gameboard.restoreFromMemento(savedBoards.get(travel));
+                    undo(1);
+                    undo(2);
+                    gameboard.showDetailedBoard();
                 }
+                preSelect(player, gameboard);
+                return;
             } else {
                 if (action > 77 || action < 0) {
                     System.out.println("That selection is not a part of the board. Get in the game!");
@@ -283,7 +300,6 @@ public class Game {
     ************** Move Your Piece ****************
     */
     public static void movePiece(Player player, int x, int y, Board gameboard, int pieceSelection) {
-        // int action;
         Square initial = Board.squares[x][y];
         Piece piece = initial.getPiece();
         int action = pieceSelection;
@@ -309,12 +325,12 @@ public class Game {
                 }
             }
             Type type = piece.getType();
-            // System.out.println(type + " whoopee ------------");
-            String move = player.getName() + "'s " + type + " has moved from " + x + "" + y + " to " + endX + "" + endY;
+            Move move = new Move(player, piece, x, y, endX, endY);
+            moves.add(move);
             if (type == Type.PAWN) {
                 if (endX == 0 || endX == 7) {
-                    move += " and is promoted to a QUEEN";
                     piece = player.pawnPromotion(piece, endX, endY);
+                    move.addPromoted();
                 }
             }
             /*
@@ -323,15 +339,11 @@ public class Game {
             Player otherPlayer = getOtherTeam(player);
             if (Board.squares[endX][endY].hasPiece()) {
                 Piece capturedPiece = Board.squares[endX][endY].getPiece();
-                move = move + " and has captured " + otherPlayer.getName() + "'s " + capturedPiece.getType() + "!";
-                // otherPlayer.team = otherPlayer.killPiece(capturedPiece);
+                move.addCapture(capturedPiece);
                 otherPlayer.killPiece(capturedPiece);
             }
-            moves.add(move);
-            System.out.println(move);
-            //moves from old spot
+            //moves from old spot ///moves to new spot
             Board.squares[x][y].setPiece(null);
-            ///moves to new spot
             gameboard.getSquare(endX, endY).setPiece(piece);
             //updates King's location if King moved
             if (piece.getType().equals(Type.KING)) {
@@ -339,10 +351,17 @@ public class Game {
                 king.setXY(endX, endY);
             }
             if (Status.didCheck(player, piece, gameboard, endX, endY)) {
-                move += player.getName() + " has put " + otherPlayer.getName() + " in check!";
-                // System.out.println(otherPlayer.getName() + ", you must move out of check.");
+                move.addCheck();
                 Status.check = true;
+                if (Status.isCheckMate(otherPlayer, gameboard)) {
+                    System.out.println("");
+                    System.out.println("CHECKMATE!!!!!!!!!!!!");
+                    System.out.println(player.getName() + " wins! Congratulations");
+                    System.out.println("");
+                    Status.active = false;
+                }
             }
+            System.out.println(move.getMessage());
             return;
         } else {
             System.out.println("Invalid move");
@@ -362,7 +381,8 @@ public class Game {
         Player player = player1;
         while (Status.active) {
             preSelect(player, gameboard);
-            savedBoards.add(gameboard.saveToMemento(gameboard));
+            gameboard.set(gameboard);
+            savedBoards.add(gameboard.saveToMemento());
             gameboard.showBoard();
             player = getOtherTeam(player);
         }

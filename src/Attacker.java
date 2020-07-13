@@ -8,7 +8,7 @@ public class Attacker {
     private Attacker(Player player, Piece piece, int x, int y) {
         this.piece = piece;
         type = piece.getType();
-        isWhite = player.getColor();
+        isWhite = player.isWhite();
         this.x = x;
         this.y = y;
     }

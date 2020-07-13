@@ -17,8 +17,10 @@ BLOCKERS-
 9. How to keep King from moving into check
 10. How to declare checkmate
 11. How to castle
-12. I have decided to use libGDX so I must learn that before I can begin on my project
-13. I have to use Ecliplse or IntelliJ to use libGDX
+12. How to undo
+13. I don't know how to use a game library
+14. Add two design patterns
+15. Apply SOLID principles
 
 
 
@@ -26,25 +28,31 @@ BLOCKERS-
 * * * * * * * *
 1. There is a ton of logic involved in a chess game so I will concentrate on that and not worry about a front end until I am finished with the game, aka I probably won't waste my time learning how to use a game library I probably won't use again. So I am skipping 1, 12, and 13
 
-2. My research shows that instances do not need unique variable names, it will introduce some complication for selecting the piece but I was able to research how to dynamically create pieces
+2. My research shows that instances do not need unique variable names, it will introduce some complication for selecting the piece but I was able to research how to dynamically create pieces. I refactored multiple times as I tried to decide the best way to implement Pieces. My 2nd idea, and the one I liked best, was to make every piece a enum but I was unable to do so since Piece was an abstract class. I ended up initializing it in Board.
 
-3. and 5. On reflection, these 2 are related. I am still unsure if it is bad practice for them to be doubly composite linked. But as of right now, I am going to let the board control the pieces and the pieces won't know its location. this is the easiest way initially although I think it will limit me later (like with avoiding check)
+3. and 5. On reflection, these 2 are related. I am still unsure if it is bad practice for them to be doubly composite linked. But as of right now, I am going to let the board control the pieces and the pieces won't know its location. this is the easiest way initially although I think it will limit me later (like with avoiding check). Edit- Craig informed me that my notion of having double composition being bad design was correct.  I ended up deciding on the board having pieces which was the easiest way to establish each piece's move logic but checkmate would have been much easier to perform if I had chosen vise versa. I did give King a location as that let me avoid looping through the whole board twice for Check and Checkmate.
 
-4. I initially thought the best way was in Enums but I was unable to do this with the super class of Pieces because it was abstract. Right now I am planning to initialize board and pieces simultaneously
+4. I initially thought the best way was in Enums but I was unable to do this with the super class of Pieces because it was abstract. Right now I am planning to initialize board and pieces simultaneously. Edit- yes I instantiated all Pieces in board simultaneosly with the instantiation of all 64 squares.
 
-6. is related to 2. I dynamically created nested arrays much like I created multiple isntances of the same piece
+6. is related to 2. I dynamically created nested arrays much like I created multiple instances of the same piece
 
-7. The knight didn't end up being a blocker like I thought. In fact, it is easier since I don't have to check whether or not the path is blocked. Originally, I planned for each piece to have a list of all possible moves but I instead decided to simplify and just check to see if the chosen move is valid which eliminated my blocker.
+7. The knight didn't end up being a blocker like I thought. In fact, it was the easiest Piece to implement since I didin't have to check whether or not the path is blocked. Originally, I planned for each piece to have a list of all possible moves but I decided to simplify and insted validate whether the chosen move was valid which eliminated this blocker.
 
-8. I should be able to do this from Game.java I will set a type of the opposing team to null. I might want to refactor my team to a boolean to make it easier to switch teams
+8. I should be able to do this from Game.java I will set a type of the opposing team to null. I might want to refactor my team to a boolean to make it easier to switch teams. Edit- I did indeed refactor to a boolean. I felt that Single Responsibility dictated that I should get the opposite team within the Team class but I instead did so through the Game class (which controlled gameflow) which was easy.
 
-9. I will have to loop through EVERY enemy piece and check to see if it can reach the King's desired destination. It will be a pain in the ass but ideally I could make it more efficient by eliminating Pawns and Kings depending on their position. 
+9. I will have to loop through EVERY enemy piece and check to see if it can reach the King's desired destination. It will be a pain in the ass but ideally I could make it more efficient by eliminating Pawns and Kings depending on their position. Edit- To avoid a double dependency, I eliminated the piece's position so instead I have to loop through the entire board, check to see if it has a piece, and if so whether that square's location to the King was a valid move (aka I used the existing isValidMove for Piece and just applied it differently)
 
-10. This will be difficult because not only do I need to check if the King can move to an unpressured square, I will also need to see check if it's own pieces will be able to block the pressure. So hypothetically I will have to check EVERY piece. This will be difficult and something I will leave towards the end
+10. This will be difficult because not only do I need to check if the King can move to an unpressured square, I will also need to see check if it's own pieces will be able to block the pressure. So hypothetically I will have to check EVERY piece. This will be difficult and something I will leave towards the end. Edit- This was the hardest blocker of all the actual logic (aka everything but SOLID principles) but I eventually got it done.
 
 11. It shouldn't be too difficult to see if the pieces in between the King and Rook are unoccupied but it will be hard to check whether or not the King or Rook had previously moved. I was planning on having a list of moves to display so I will be able to use that to loop through it and make sure neither piece has moved yet
 
-12/13. Will probably avoid these blockers and instead print board to terminal
+12. Can use a memento, will have to learn this design pattern
+
+13. Will probably avoid these blockers and instead print board to terminal
+
+14. Singleton proved easy to implement, Memento has been more difficult
+
+15. This has been by far the biggest blocker that took up the majority of my time. I refactored my code many, many times trying to achieve a design that 100% followed the SOLID principles and I still didn't quite get there.
 
 
 3. Executing the Plan
@@ -69,7 +77,6 @@ This initially works, but after 5-10 moves(3 to 5 loops) in, it gets wonky and w
 
 Checks
 Memento Undo a move
-//////Chain of Responsibility
 Netlify instructions
 Add 1 to Board
 

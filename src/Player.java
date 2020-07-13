@@ -50,7 +50,7 @@ public class Player {
     /*
     **********Returns whether White or Black ************
     */
-    public boolean getColor() {
+    public boolean isWhite() {
         return isWhite;
     }
 

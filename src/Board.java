@@ -2,6 +2,7 @@ public class Board {
     // String[] ids = { "A", "B", "C", "D", "E", "F", "G", "H" };   
     final public static Square[][] squares = new Square[8][8];
     static Board uni;
+    private Board gameboard;
 
     private Board() {
         //dynamically creates board composed of 64 squares        
@@ -121,10 +122,17 @@ public class Board {
     }
 
     /*
+    ************** Sets State for Memento****************
+    */
+    public void set(Board gameboard) {
+        this.gameboard = gameboard;
+    }
+
+    /*
     ************** Saves State for Option to undo****************
     */
-    public Memento saveToMemento(Board gameboard) {
-        System.out.println("Saving Board to Memento");
+    public Memento saveToMemento() {
+        // System.out.println("Saving Board to Memento");
         return new Memento(gameboard);
     }
 
@@ -132,7 +140,7 @@ public class Board {
     ************** Restores State (undoes) ****************
     */
     public Board restoreFromMemento(Memento memento) {
-        Board gameboard = memento.getSavedBoard();
+        gameboard = memento.getSavedBoard();
         System.out.println("Board restored from Memento.");
         return gameboard;
     }
