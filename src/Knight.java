@@ -65,14 +65,6 @@ public class Knight extends Piece {
     }
 
     /*
-    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
-    */
-    @Override
-    public boolean canCheck(int x, int y, int kingX, int kingY) {
-        return false;
-    }
-
-    /*
     **********Checks To Ensure Piece is moving 1 spot vertically and 2 spots horizontally or vise versa ************
     */
     @Override

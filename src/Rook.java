@@ -37,16 +37,16 @@ public class Rook extends Piece {
         return this.type;
     }
 
-    public void select() {
-    }
+    // public void select() {
+    // }
 
-    /*
-    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
-    */
-    @Override
-    public boolean canCheck(int x, int y, int kingX, int kingY) {
-        return false;
-    }
+    // /*
+    // **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
+    // */
+    // @Override
+    // public boolean canCheck(int x, int y, int kingX, int kingY) {
+    //     return false;
+    // }
 
     /*
     **********Rook can move in any horizontally or vertically infinitely if not blocked  ************

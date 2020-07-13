@@ -7,7 +7,7 @@ public abstract class Piece {
     // final public static Piece B_Queen = new Queen("Queen", "black");
     // final public static Piece W_Queen = new Queen("Queen", "white");
     // public String name;
-    public String color;
+    // public String color;
     // public boolean alive = true;
     // int x, y;
 
@@ -51,10 +51,10 @@ public abstract class Piece {
     */
     public abstract Type getType();
 
-    /*
-    **********Returns Type(for printing) ************
-    */
-    public abstract boolean canCheck(int x, int y, int kingX, int kingY);
+    // /*
+    // **********Returns Type(for printing) ************
+    // */
+    // public abstract boolean canCheck(int x, int y, int kingX, int kingY);
 
     /*
     **********Returns Whether Move is Accepted Based on the piece's movement ability************

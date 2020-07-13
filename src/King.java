@@ -66,8 +66,7 @@ public class King extends Piece {
     /*
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
-    @Override
-    public boolean canCheck(int x, int y, int kingX, int kingY) {
+    public boolean canMakeMove(int x, int y, int kingX, int kingY) {
         return false;
     }
 

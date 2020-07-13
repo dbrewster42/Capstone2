@@ -98,7 +98,8 @@ public class Game {
                 return false;
             }
         } else {
-            System.out.println("You must select your Rook to initiate a castle");
+            System.out.println(
+                    "You must select your Rook to initiate a castle. If you are in valid castling conditions and wish to castle, please go back and select your rook.");
             // preSelect(player, gameboard);
             return false;
         }
@@ -133,6 +134,50 @@ public class Game {
         } else {
             System.out.println("Wow you are tricky");
         }
+    }
+
+    public static boolean isValidPassant(Player player, int x, int y, Board gameboard) {
+        Piece piece = Board.squares[x][y].getPiece();
+        Move lastMove = moves.get(moves.size() - 1);
+        int currentX = lastMove.getEndX();
+        int currentY = lastMove.getEndY();
+        int prevX = lastMove.getX();
+        int prevY = lastMove.getY();
+        if (piece.getType() == Type.PAWN) {
+            if (Math.abs(y - currentY) == 1) {
+                if (Math.abs(prevX - currentX) == 2) {
+                    if (currentX == x) {
+                        return true;
+                    }
+                }
+            }
+            System.out.println("This is not a valid Passant move");
+            return false;
+        } else {
+            System.out.println("A Passant is only applicable for a Pawn");
+            return false;
+        }
+    }
+
+    public static void doPassant(Player player, int x, int y, Board gameboard) {
+        Piece piece = Board.squares[x][y].getPiece();
+        Move lastMove = moves.get(moves.size() - 1);
+        int prevX = lastMove.getX();
+        int currentX = lastMove.getEndX();
+        int currentY = lastMove.getEndY();
+        int endX = x + 1;
+        if (currentX - prevX > 0) {
+            endX = x - 1;
+        }
+        Piece capturedPiece = Board.squares[currentX][currentY].getPiece();
+        Player otherPlayer = getOtherTeam(player);
+        otherPlayer.killPiece(capturedPiece);
+        Board.squares[x][y].setPiece(null);
+        Board.squares[currentX][currentY].setPiece(null);
+        Board.squares[endX][currentY].setPiece(piece);
+        Move move = new Move(player, piece, x, y, endX, currentY);
+        move.addCapture(capturedPiece);
+        moves.add(move);
     }
 
     /*
@@ -170,7 +215,7 @@ public class Game {
                 if (answer.equals("yes")) {
                     System.out.println("Forfeiting...");
                     Player otherPlayer = getOtherTeam(player);
-                    System.out.println(otherPlayer.getName() + "Wins! Congratulations on your victory!");
+                    System.out.println(otherPlayer.getName() + " wins! Congratulations on your victory!");
                     Status.active = false;
                     return;
                 }
@@ -249,6 +294,7 @@ public class Game {
         System.out.println("Enter 888 to display the detailed board");
         System.out.println("Enter 777 to display a list of all moves");
         System.out.println("Enter 333 to castle if you have selected a Rook and are in a valid Castling Condition");
+        System.out.println("Enter 111 to perform a passant if you have selected a Pawn and the conditions are valid");
         System.out.println("Or type in the double digit number tile of your piece's destination");
         System.out.println();
         try {
@@ -268,8 +314,12 @@ public class Game {
                     // System.out.println("CASTLE!");
                     doCastle(player, x, y, gameboard);
                     return;
-                } else {
-                    System.out.println("Valid castling conditions were not met");
+                }
+            } else if (action == 111) {
+                if (isValidPassant(player, x, y, gameboard)) {
+                    System.out.println("Passant!");
+                    doPassant(player, x, y, gameboard);
+                    return;
                 }
             } else {
                 // System.out.println("We're here and we're hustling");

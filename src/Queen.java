@@ -63,14 +63,6 @@ public class Queen extends Piece {
     }
 
     /*
-    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
-    */
-    @Override
-    public boolean canCheck(int x, int y, int kingX, int kingY) {
-        return false;
-    }
-
-    /*
     **********Queen can move in any 1 direction infinitely if not blocked, but only 1 direction  ************
     */
     @Override

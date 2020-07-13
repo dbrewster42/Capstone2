@@ -4,6 +4,7 @@ public class Status {
     public static boolean active = true;
     public static boolean check = false;
     public static boolean checkMate = false;
+    public static boolean Stalemate = false;
     static Attacker[] attackers = new Attacker[2];
 
     /*
@@ -52,6 +53,7 @@ public class Status {
         if (Board.squares[endX][endY].hasPiece()) {
             oldPiece = Board.squares[endX][endY].getPiece();
         }
+        /// makes attempted move and validates if out of check
         Board.squares[endX][endY].setPiece(piece);
         if (attacker.piece.isValidMove(attacker.x, attacker.y, kingX, kingY)) {
             return false;
@@ -66,6 +68,8 @@ public class Status {
         if (player.isWhite()) {
             color = "white";
         }
+        //// checks to see if King can move out of check
+        /////
         Attacker attacker = attackers[0];
         King king = player.getKing();
         int kingX = king.getX();

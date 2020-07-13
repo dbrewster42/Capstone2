@@ -1,6 +1,4 @@
 public class Bishop extends Piece {
-    // final public static Piece B_Bishop = new Bishop("Bishop", "black");
-    // final public static Piece W_Bishop = new Bishop("Bishop", "white");    
     private Type type;
     private String color;
     private String name;
@@ -19,31 +17,6 @@ public class Bishop extends Piece {
         //     name = "\u265D";
         // }
     }
-
-    // /*
-    // **********Returns X ************
-    // */
-    // @Override
-    // public int getX() {
-    //     return this.x;
-    // }
-
-    // /*
-    // **********Returns Y ************
-    // */
-    // @Override
-    // public int getY() {
-    //     return this.y;
-    // }
-
-    // /*
-    // **********Sets X and Y ************
-    // */
-    // @Override
-    // public void setXY(int x, int y) {
-    //     this.x = x;
-    //     this.y = y;
-    // }
 
     /*
     **********Returns Name ************
@@ -70,21 +43,11 @@ public class Bishop extends Piece {
     }
 
     /*
-    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
-    */
-    @Override
-    public boolean canCheck(int x, int y, int kingX, int kingY) {
-        return false;
-    }
-
-    /*
     **********Checks To Ensure Piece is moving Diaganally ************
     **********Checks To Ensure there are no pieces in between starting and ending spot ************
     */
     @Override
     public boolean isValidMove(int x, int y, int endX, int endY) {
-        //doesn't work with-1 up +1 right or down and left
-        //counts 1 time too many
         int width = x - endX;
         int length = y - endY;
         if (Math.abs(width) != Math.abs(length)) {

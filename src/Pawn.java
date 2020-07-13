@@ -50,14 +50,6 @@ public class Pawn extends Piece {
     }
 
     /*
-    **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
-    */
-    @Override
-    public boolean canCheck(int x, int y, int kingX, int kingY) {
-        return false;
-    }
-
-    /*
     **********Checks To Ensure Piece is moving Forward 1 spot, unless first move in which case it can move 2, or capturing ************
     */
     @Override

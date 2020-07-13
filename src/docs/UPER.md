@@ -54,6 +54,49 @@ BLOCKERS-
 
 15. This has been by far the biggest blocker that took up the majority of my time. I refactored my code many, many times trying to achieve a design that 100% followed the SOLID principles and I still didn't quite get there.
 
+Chess Game Outline
+******************************************************************************************
+Game - Main Class: encapsulates all other classes, 
+instantiates 16 white and 16 black pieces, 2 players, and board
+
+Players - 2 players take turns. 1 = white, 2=black, name property
+
+Board Class - renders board.
+8x8 squares each with a unique ID. letter for row and number for column ie A1
+Instantiate pieces from the board, each takes up a set square
+
+Square class - 
+Square inherits from board, probably using composition
+Board HAS A piece
+Can only have 1 piece. So 1 property 
+Extra- Alternating Color
+
+
+Abstract Piece Class - blueprint for pieces/ maybe broken up into white/black
+String Color
+Square Position
+select() select specific piece 
+move() changes position
+moves() logic for the position the piece IS ABLE to move(arraylist?)
+
+King
+Queen 
+Rook 2
+Knight 2
+Bishop 2
+Pawn 8
+Do I want to split these classes based on color or have color as a characteristic?
+
+Can’t move off the board
+Can’t move past enemy piece
+If lands on piece that enemy piece resides on, piece becomes null
+Can’t move on or past teammate, exception for Knight
+Stream- either a list of possible moves or past moves (also use lambda)
+
+Extras- list of possible moves displayed to user/ either by text or highlight(clickable)
+ operates on touch as well as text
+
+
 
 3. Executing the Plan
 * * * * * * * *
