@@ -17,7 +17,7 @@ BLOCKERS-
 9. How to keep King from moving into check
 10. How to declare checkmate
 11. How to castle
-12. How to undo
+12. How to use Memento for undo
 13. I don't know how to use a game library
 14. Add two design patterns
 15. Apply SOLID principles
@@ -42,7 +42,9 @@ BLOCKERS-
 
 9. I will have to loop through EVERY enemy piece and check to see if it can reach the King's desired destination. It will be a pain in the ass but ideally I could make it more efficient by eliminating Pawns and Kings depending on their position. Edit- To avoid a double dependency, I eliminated the piece's position so instead I have to loop through the entire board, check to see if it has a piece, and if so whether that square's location to the King was a valid move (aka I used the existing isValidMove for Piece and just applied it differently)
 
-10. This will be difficult because not only do I need to check if the King can move to an unpressured square, I will also need to see check if it's own pieces will be able to block the pressure. So hypothetically I will have to check EVERY piece. This will be difficult and something I will leave towards the end. Edit- This was the hardest blocker of all the actual logic (aka everything but SOLID principles) but I eventually got it done.
+10. This will be difficult because not only do I need to check if the King can move to an unpressured square, I will also need to see check if it's own pieces will be able to block the pressure. So hypothetically I will have to check EVERY piece. This will be difficult and something I will leave towards the end. Edit- This was the hardest blocker of all the actual logic (aka everything but SOLID principles) but I eventually got it done like so-
+
+Checkmate was the hardest functionality to implement. First I generated a list of all Valid Moves for the King(aka any vacant squares within 1 square), looped through the board and if that square had an enemy piece, I checked whether any enemy piece could reach any of those valid moves (using my isValidMove function to see whether the enemy piece could reach). Then, if there were no valid escapes for the King, I generated incrementers to check the direction of the check and I looped through the entire board again, this time searching for teammate pieces and checked whether it could either capture or block the check.
 
 11. It shouldn't be too difficult to see if the pieces in between the King and Rook are unoccupied but it will be hard to check whether or not the King or Rook had previously moved. I was planning on having a list of moves to display so I will be able to use that to loop through it and make sure neither piece has moved yet
 
@@ -132,19 +134,19 @@ I am refactoring my Player class to change the team name to a boolean for easier
 
 -----------------------------------------------SOLID PRINCIPLES --------------------------------------------
 
-1. I have spent a lot of time contemplating the Single Responsibility Principle as it relates to this assignment (and also burger). This principle is very easy to implement but very tough to implement it 100%. My Game.java(entry point) breaks the Single Responsibilty but I am unsure of how to do it better. I would love to see a demonstration of either this assignment, or the burger assignment that completely follows the Single Responsibility Principle.
+1. Single Responsibility Principle - I have spent a lot of time contemplating the Single Responsibility Principle as it relates to this assignment (and also burger). This principle is very easy to implement but very tough to implement it 100%. My Game.java(entry point) breaks the Single Responsibilty but I am unsure of how to do it better. I would love to see a demonstration of either this assignment, or the burger assignment that completely follows the Single Responsibility Principle.
 
-2. Piece is open for extension and closed for modification which demonstrates the Open Closed Principle. All subclasses of piece inherits (extends) its behavior and adds unique behavior without modifying Piece itself. Any unique properties of a piece are isolated to that piece such as King having a location
+2. Open Closed Principle- Piece is open for extension and closed for modification which demonstrates the Open Closed Principle. All subclasses of piece inherits (extends) its behavior and adds unique behavior without modifying Piece itself. Any unique properties of a piece are isolated to that piece such as King having a location
 
-3. The children are substituted seemlessly for the parent Piece which is the Liskov Substitution Principle. My game would not work otherwise because the vast majority of my calls to the children of Piece are actually to Piece itself even though Piece is an abstract class and cannot actually perform any of the methods I call to it. The only times I do not call Piece are for special rules such as Pawn Promotion or Castling which require a specific subclass.
+3. Liskov Substitution Principle - The children are substituted seemlessly for the parent Piece which is the Liskov Substitution Principle. My game would not work otherwise because the vast majority of my calls to the children of Piece are actually to Piece itself even though Piece is an abstract class and cannot actually perform any of the methods I call to it. The only times I do not call Piece are for special rules such as Pawn Promotion or Castling which require a specific subclass.
 
-4. The abstraction interfaces are implemented 100%. They are fine grained interface that are client specific with a well-defined purpose and only exposes behavior that is aligned with its purpose. 
+4. Interface Segregation Principle - Make fine grained interfaces that are client specific. The abstraction interfaces are implemented 100%. They are fine grained interface that are client specific with a well-defined purpose and only exposes behavior that is aligned with its purpose. 
 
-5. I attempted to make my program depend on abstractions instead of concretions and I did so with all the abstractions that I used. But did I follow this rule 100%? My Piece class did but I had other multiple other classes that had no need for extension such as square. There are 64 instances of square that made up the board (via composition) but all had identical behavior so I did not make an abstract class or interface for it. Thus, any interaction I had with square depended on the concrete Square class. I hvng believe this violates the Dependency Inversion Principle although I do not see how this would benefit my program.
+5. Dependency Inversion Principle - I attempted to make my program depend on abstractions instead of concretions and I did so with the Piece Class. But did I follow this rule 100%? I had other multiple other classes that had no need for extension such as Square. There are 64 instances of square that made up the board (via composition) but all had identical behavior so I did not make an abstract class or interface for it. Thus, any interaction I had with square depended on the concrete Square class. I hvng believe this violates the Dependency Inversion Principle although I do not see how this would benefit my program.
 
 In recap, I applied Principles 2-4 throughout the project and I did my best to use the Single Responsibilty and Dependency Inversion Principles but upon reflection, I wasn't able to understand them well enough to fully implement.
 
-Craig was able to greatly increase my understanding of proper code practices but with my inexperience, completely achieving best practices seems like attempting to travel at the speed of light. I can always do better but I can never quite reach it. I spent at least 75% of my time on this project refactoring my code.
+Craig was able to greatly increase my understanding of proper code practices but with my inexperience, completely achieving best practices seems like attempting to travel at the speed of light. I can always do better but I can never quite reach it. I spent the majority of my time on this project continuously refactoring my code.
 
 I either spent way too much time on unicode or not nearly enough time.
 

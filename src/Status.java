@@ -9,6 +9,10 @@ public class Status {
     public static boolean Stalemate = false;
     static Attacker[] attackers = new Attacker[2];
 
+    // public static boolean getCheckMate(){
+
+    // }
+
     /*
     ************** Checks for Check! After every move it scans the pieces to see if it is a check ****************
     */
@@ -66,6 +70,61 @@ public class Status {
             Board.squares[endX][endY].setPiece(oldPiece);
             return true;
         }
+    }
+
+    public static boolean isStalemate(Player player, Board gameboard) {
+        String color = "black";
+        if (player.isWhite()) {
+            color = "white";
+        }
+        King king = player.getKing();
+        // int kingX = king.getX();
+        // int kingY = king.getY();
+        int[] possibleMoves = king.canMakeMove();
+        int a = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (Board.squares[i][j].hasPiece()) {
+                    Piece piece = Board.squares[i][j].getPiece();
+                    if (piece.getColor() == color) {
+                        if (piece.getType() == Type.KING) {
+                            continue;
+                        }
+                        int blockX = possibleMoves[a];
+                        int blockY = possibleMoves[a + 1];
+                        while (blockX != i && blockY != j) {
+                            if (blockX > 7 || blockX < 0 || blockY > 7 || blockY < 0) {
+                                break;
+                            }
+                            System.out.println(
+                                    "Can " + piece.getType() + " at " + i + "" + j + " reach " + blockX + "" + blockY);
+                            if (piece.isValidMove(i, j, blockX, blockY)) {
+                                System.out.println("Can be reached by " + piece.getType() + " at " + i + "" + j
+                                        + " to  " + blockX + "" + blockY);
+                                System.out.println("Not checkmate");
+                                return false; //is not checkmate
+                            }
+                            a = a + 2;
+                        }
+
+                    }
+                }
+            }
+        }
+        return true;
+        // for (int a = 0; a < 10; a = a + 2) {
+        //     if (possibleMoves[a] == 8) {
+        //         System.out.println(a + " not here");
+        //         break;
+        //     } else if ( (attacker.piece.isValidMove( possibleMoves[a], possibleMoves[a + 1], endX, endY)) {
+        //         System.out.println("King cannot move to " + possibleMoves[a] + "" + possibleMoves[a + 1]);
+        //         continue;
+        //     } else {
+        //         System.out.println("King can move to " + possibleMoves[a] + "" + possibleMoves[a + 1]);
+        //         return false;
+        //     }
+        // }
+        // return true;
     }
 
     public static boolean isCheckMate(Player player, Board gameboard) {

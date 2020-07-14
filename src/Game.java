@@ -80,6 +80,7 @@ public class Game {
         System.out.println("Enter 777 to display a list of all moves");
         System.out.println("Enter 444 to undo a move");
         System.out.println("Enter 1111 to forfeit");
+        System.out.println("Enter 5555 to petition for Stalemate");
         System.out.println("Or enter in a double digit number to select your piece");
         System.out.println();
         if (Status.check) {
@@ -123,6 +124,8 @@ public class Game {
                 }
                 preSelect(player, gameboard);
                 return;
+            } else if (action == 5555) {
+                System.out.println("You are not in stalemate. There are valid moves you can make");
             } else {
                 if (action > 77 || action < 0) {
                     System.out.println("That selection is not a part of the board. Get in the game!");
@@ -322,25 +325,24 @@ public class Game {
             gameboard.showBoard();
             player = getOtherTeam(player);
         }
+        System.out.println("");
         if (Status.checkMate == true) {
-            System.out.println("");
             System.out.println("CHECKMATE!!!!!!!!!!!!");
             player = getOtherTeam(player);
             System.out.println(player.getName() + " wins! Congratulations");
-            System.out.println("");
         } else if (Status.draw == true) {
-            System.out.println("");
             System.out.println("Both teams are out of pieces and unable to checkmate. It is a Draw! Good game "
                     + player1.getName() + " and " + player2.getName());
-            System.out.println("");
         } else if (Status.forfeit == true) {
             Player otherPlayer = getOtherTeam(player);
-            System.out.println("");
             System.out.println(otherPlayer.getName() + " has forfeited! Game Over!");
             System.out.println(player.getName() + " wins! Congratulations on your victory!");
-            System.out.println("");
 
+        } else {
+            System.out.println(
+                    "We have stalemate! It is a tie! Good game " + player1.getName() + " and " + player2.getName());
         }
+        System.out.println("");
 
     }
 

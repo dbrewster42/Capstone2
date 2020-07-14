@@ -6,6 +6,8 @@ Polymorphism is the concept that objects of different types can be accessible th
 
 Example- my Piece Class. It illustrates multiple pillars of OOP. To start, it is the parent of Pawn, Rook, Queen, Knight, King, and Bishop all. All of these different types of Piece have unique properties but they all inherit from Piece and reuses its functionality. It is also an example of abstraction because Piece is an abstract class. Piece Class serves as a blueprint for all its children but it does not actually function by itself. 
 
-Example 2- my Board Class. It has a private constructor that can only be instantiated once. This is called a Singleton but it also displays the use of Encapsulation because it's constructor is private and can not be instantiated outside the class except through the Constructor Method. Also, all of my code displays encapsulation because all the fields are private. If you wish to read or change any data, it is only possible to do so using getters and setters. 
+My third example is the Pawn class. I could have chosen any of the Piece children because they all override the parent method which is Polymorphism. Another example of Polymorphism is by overloading a method like with my Move Class which calls a different constructor depending on whether or not it was a Special move.
 
-And my last example will be the Pawn class. I could have chosen any of the Piece children because they all override the parent method which is Polymorphism. Another example of Polymorphism is by overloading a method like with my Move constructor which calls a different constructor depending on whether or not it was a Special move.
+My Board Class is the last example. It has a private constructor that can only be instantiated once. This is called a Singleton but it also displays the use of Encapsulation because it's constructor is private and can not be instantiated outside the class except through the Constructor Method. Also, all of my code displays encapsulation because all the fields are private. If you wish to read or change any data, it is only possible to do so using getters and setters. 
+
+
