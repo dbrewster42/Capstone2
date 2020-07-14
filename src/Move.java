@@ -34,6 +34,10 @@ class Move {
         message += " and is promoted to a QUEEN";
     }
 
+    public void addPassant() {
+        message += " using en passant";
+    }
+
     public void addCapture(Piece capturedPiece) {
         capture = true;
         this.capturedPiece = capturedPiece;

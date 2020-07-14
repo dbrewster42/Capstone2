@@ -4,6 +4,8 @@ public class Status {
     public static boolean active = true;
     public static boolean check = false;
     public static boolean checkMate = false;
+    public static boolean draw = false;
+    public static boolean forfeit = false;
     public static boolean Stalemate = false;
     static Attacker[] attackers = new Attacker[2];
 
@@ -11,10 +13,9 @@ public class Status {
     ************** Checks for Check! After every move it scans the pieces to see if it is a check ****************
     */
     public static boolean didCheck(Player player, Piece piece, Board gameboard, int endX, int endY) {
-        // Piece[] team = player.getTeam();
-        // for (Piece i : team){
-        //     if (i.canCheck(endX, endY))
-        // }
+        if (piece.getType() == Type.KING) {
+            return false;
+        }
         int x = endX;
         int y = endY;
         Player otherTeam = Game.getOtherTeam(player);
@@ -25,9 +26,6 @@ public class Status {
         if (piece.isValidMove(x, y, kingX, kingY)) {
             Attacker attacker = Attacker.createAttacker(player, piece, x, y);
             attackers[0] = attacker;
-            // if (player.getColor()){
-
-            // }
             return true;
         }
         return false;
@@ -118,6 +116,9 @@ public class Status {
                         int blockX = attacker.x;
                         int blockY = attacker.y;
                         while (blockX != i && blockY != j) {
+                            if (blockX > 7 || blockX < 0 || blockY > 7 || blockY < 0) {
+                                break;
+                            }
                             System.out.println(
                                     "Can " + piece.getType() + " at " + i + "" + j + " reach " + blockX + "" + blockY);
                             if (piece.isValidMove(i, j, blockX, blockY)) {

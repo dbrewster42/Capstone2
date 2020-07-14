@@ -70,7 +70,7 @@ public class Bishop extends Piece {
         int count = Math.abs(width);
         int betweenX = x;
         int betweenY = y;
-        while (count > 0) {
+        while (count > 1) {
             betweenX = betweenX - checkX;
             betweenY = betweenY - checkY;
             System.out.println("Checking Square " + betweenX + betweenY + " . Count- " + count);

@@ -7,12 +7,11 @@
 <body>
 
 
-<h2>Specific Chess Rules</h2>
+<h2>Specific Game Rules</h2>
 
 <p>To select a piece, you first choose it's vertical location, 0-7. Then select it's horizontal direction, also 0-7. <br>
     You then enter this 2 digit number to select the piece and you choose the piece's new location in the same way. The
-    program will check to ensure that it is a valid movement and it will direct you to rechoose if it isn't.<br> Castling
-    is done by selecting the Rook you wish to use. Again, the program will validate whether it is a legal move. 
+    program will check to ensure that it is a valid movement and it will direct you to rechoose if it isn't.
 </p>
 
 <h2>General Chess Rules</h2>
@@ -25,26 +24,18 @@
     with capture (but can protect himself or escape), it´s called check. If a king is in check, then the player must
     make a move that eliminates the threat of capture and cannot leave the king in check. Checkmate happens when a king
     is placed in check and there is no legal move to escape. Checkmate ends the game and the side whose king was
-    checkmated looses. Chess for kids would be a great option to help the kid enhance his thinking capability with the
-    chess strategies involved. Visit our affiliate chess online lessons website for scheduling an evaluation session
-    with one of our experienced chess coaches.</p>
-
-<h2>Initial Set Up</h2>
-
-<p>The chessboard is made up of eight rows and eight columns for a total of 64 squares of alternating colors. Each
-    square of the chessboard is identified with a unique pair of numbers. The vertical and horizontal ranks are numbered
-    from 0 to 7, starting from the top right side. Each square of the board is uniquely identified by its row and column. The white and black pieces mirror each other</p>
+    checkmated looses. </p>
 
 <h2>Rules for each Piece's Movement</h2>
 <p>These are 100% followed. Any invalid movement will be caught and not implemented</p>
 <ul>
-    <li>King can move exactly one square horizontally, vertically, or diagonally. Once in every game, each king is allowed to make a special move, known as castling.</li>
-    <li>Queen can move any number of vacant squares diagonally, horizontally, or vertically.</li>
-    <li>Rook can move any number of vacant squares vertically or horizontally. It also is moved while castling.</li>
-    <li>Bishop can move any number of vacant squares in any diagonal direction.</li>
-    <li>Knight can move one square along any rank or file and then at an angle. The knight´s movement can also be viewed
-        as an “L” or “7″ laid out at any horizontal or vertical angle.</li>
-    <li>Pawns can move forward one square, if that square is unoccupied. If it has not yet moved, the pawn has the
+    <li><strong>King</strong> can move exactly one square horizontally, vertically, or diagonally. Once in every game, each king is allowed to make a special move, known as castling.</li>
+    <li><strong>Queen</strong> can move any number of vacant squares diagonally, horizontally, or vertically.</li>
+    <li><strong>Rook</strong> can move any number of vacant squares vertically or horizontally. It also is moved while castling.</li>
+    <li><strong>Bishop</strong> can move any number of vacant squares in any diagonal direction.</li>
+    <li><strong>Knight</strong> can move one square along any rank or file and then two more in a 90 degree angle. The knight´s movement can also be viewed
+        as an “L” or “7″ laid out at any horizontal or vertical angle. It is the only piece that can jump other pieces</li>
+    <li><strong>Pawn</strong> can move forward one square, if that square is unoccupied. If it has not yet moved, the pawn has the
         option of moving two squares forward provided both squares in front of the pawn are unoccupied. A pawn cannot
         move backward. Pawns are the only pieces that capture differently from how they move. They can capture an enemy
         piece on either of the two spaces adjacent to the space in front of them (i.e., the two squares diagonally in
@@ -52,5 +43,35 @@
         moves en passant and promotion.</li>
 </ul>
 
+<h3>Game Status(es)</h3>
+<ul>
+    <li>Active</li>
+    <li>Check</li>
+    <li>Checkmate</li>
+    <li>Draw</li>
+    <li>Stalemate (not included)</li>
+</ul>
+<h3>Special Functionalities</h3>
+<ul><strong>Any Time During Turn</strong>
+    <li>999- Shows Count of All Piece Types from Both Team</li>
+    <li>888- Shows More Detailed Board where each Square is individually marked</li>
+    <li>777- Prints a List of All Moves</li>
+</ul>
+<ul> <strong>During Piece Selection</strong>
+    
+    <li>444- Undoes last round (using a Memento)</li>
+    <li>1111- Forfeit</li>
+</ul>
+<ul> <strong>During Move Selection</strong>    
+    <li>333- Castles (the proper Rook must be selected)</li>
+    <li>111- En Passant (the proper Pawn must be selected)</li>
+</ul>
+<h3>Special Moves</h3>
+<ul>
+    <li>En Passant</li>
+    <li>Pawn Promotion</li>
+    <li>Castle</li>
+    <li>Undo</li>
+</ul>
 </body>
 </html>

@@ -3,17 +3,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Game {
-    // static private Board gameboard;
-    // private Player player1;
-    // private Player player2;
     private static Scanner scanner = new Scanner(System.in);
     static List<Move> moves = new ArrayList<Move>();
     // static Piece[] white = new Piece[16];
     // static Piece[] black = new Piece[16];
     static Player player1, player2;
     static boolean isFirst = true;
-    // static boolean active = true;
-    // static boolean check = false;
     static List<Board.Memento> savedBoards = new ArrayList<Board.Memento>();
 
     /*
@@ -41,7 +36,7 @@ public class Game {
     }
 
     /*
-    ************** Prints All Moves ****************
+    ************** Undo side effects in tandem with Memento ****************
     */
     public static void undo(int i) {
         Move lastMove = moves.get(moves.size() - i);
@@ -65,131 +60,19 @@ public class Game {
     }
 
     /*
-    ************** Checks whether Castling Conditions are Valid ****************
-    */
-    public static boolean isValidCastle(Player player, int x, int y, Board gameboard) {
-        Piece piece = Board.squares[x][y].getPiece();
-        if (piece.getType() == Type.ROOK) {
-            if (x == 7 || x == 0) {
-                if (Board.squares[x][4].getPiece().getType() == Type.KING) {
-                    if (y == 0) {
-                        int count = 3;
-                        int betweenY = y;
-                        while (count > 0) {
-                            betweenY = betweenY + 1;
-                            if (Board.squares[x][betweenY].hasPiece()) {
-                                return false;
-                            }
-                            count = count - 1;
-                        }
-                        return true;
-                    } else if (y == 7) {
-                        int count = 2;
-                        int betweenY = y;
-                        while (count > 0) {
-                            betweenY = betweenY - 1;
-                            if (Board.squares[x][betweenY].hasPiece()) {
-                                return false;
-                            }
-                            count = count - 1;
-                        }
-                        return true;
-                    } else {
-                        return false;
-                    }
-
-                }
-            } else {
-                System.out.println("This is not a valid castle");
-                return false;
-            }
-        } else {
-            System.out.println(
-                    "You must select your Rook to initiate a castle. If you are in valid castling conditions and wish to castle, please go back and select your rook.");
-            // preSelect(player, gameboard);
-            return false;
-        }
-        return false;
-    }
-
-    /*
-    ************** Performs Special Castle Move ****************
-    */
-    public static void doCastle(Player player, int x, int y, Board gameboard) {
-        Piece piece = Board.squares[x][y].getPiece();
-        Piece theKing = Board.squares[x][4].getPiece();
-        King king = (King) theKing;
-        if (y == 0) {
-            Board.squares[x][3].setPiece(piece);
-            Board.squares[x][2].setPiece(theKing);
-            king.setXY(x, y);
-            Board.squares[x][0].setPiece(null);
-            Board.squares[x][4].setPiece(null);
-            // String move = player.getName() + " has performed a long side castle";
-            Move move = new Move(player, piece, x, y, x, 3, true);
-            moves.add(move);
-        } else if (y == 7) {
-            Board.squares[x][5].setPiece(piece);
-            Board.squares[x][6].setPiece(theKing);
-            king.setXY(x, y);
-            Board.squares[x][7].setPiece(null);
-            Board.squares[x][4].setPiece(null);
-            // String move = player.getName() + " has performed a short side castle";
-            Move move = new Move(player, piece, x, y, x, 5, true);
-            moves.add(move);
-        } else {
-            System.out.println("Wow you are tricky");
-        }
-    }
-
-    public static boolean isValidPassant(Player player, int x, int y, Board gameboard) {
-        Piece piece = Board.squares[x][y].getPiece();
-        Move lastMove = moves.get(moves.size() - 1);
-        int currentX = lastMove.getEndX();
-        int currentY = lastMove.getEndY();
-        int prevX = lastMove.getX();
-        // int prevY = lastMove.getY();
-        if (piece.getType() == Type.PAWN) {
-            if (Math.abs(y - currentY) == 1) {
-                if (Math.abs(prevX - currentX) == 2) {
-                    if (currentX == x) {
-                        return true;
-                    }
-                }
-            }
-            System.out.println("This is not a valid Passant move");
-            return false;
-        } else {
-            System.out.println("A Passant is only applicable for a Pawn");
-            return false;
-        }
-    }
-
-    public static void doPassant(Player player, int x, int y, Board gameboard) {
-        Piece piece = Board.squares[x][y].getPiece();
-        Move lastMove = moves.get(moves.size() - 1);
-        int prevX = lastMove.getX();
-        int currentX = lastMove.getEndX();
-        int currentY = lastMove.getEndY();
-        int endX = x + 1;
-        if (currentX - prevX > 0) {
-            endX = x - 1;
-        }
-        Piece capturedPiece = Board.squares[currentX][currentY].getPiece();
-        Player otherPlayer = getOtherTeam(player);
-        otherPlayer.killPiece(capturedPiece);
-        Board.squares[x][y].setPiece(null);
-        Board.squares[currentX][currentY].setPiece(null);
-        Board.squares[endX][currentY].setPiece(piece);
-        Move move = new Move(player, piece, x, y, endX, currentY);
-        move.addCapture(capturedPiece);
-        moves.add(move);
-    }
-
-    /*
     ************** Breaking up the Select Piece function in the hope of making it less buggy ****************
     */
     public static void preSelect(Player player, Board gameboard) {
+        if (moves.size() > 20) {
+            int whiteCount = player1.pieceCount();
+            int blackCount = player2.pieceCount();
+            // System.out.println(whiteCount + " " + blackCount);
+            if (whiteCount == 1 && blackCount == 1) {
+                Status.draw = true;
+                Status.active = false;
+
+            }
+        }
         System.out.println();
         System.out.println(player.getName() + ", it is your turn.");
         System.out.println("Enter 999 to display a list of all the remaining pieces");
@@ -219,9 +102,7 @@ public class Game {
                 System.out.println("Type yes or hit any other key to continue with the game");
                 String answer = scanner.nextLine();
                 if (answer.equals("yes")) {
-                    System.out.println("Forfeiting...");
-                    Player otherPlayer = getOtherTeam(player);
-                    System.out.println(otherPlayer.getName() + " wins! Congratulations on your victory!");
+                    Status.forfeit = true;
                     Status.active = false;
                     return;
                 }
@@ -316,15 +197,15 @@ public class Game {
                 printMoves();
                 // return;
             } else if (action == 333) {
-                if (isValidCastle(player, x, y, gameboard)) {
+                if (SpecialMoves.isValidCastle(player, x, y, gameboard)) {
                     // System.out.println("CASTLE!");
-                    doCastle(player, x, y, gameboard);
+                    SpecialMoves.doCastle(player, x, y, gameboard, moves);
                     return;
                 }
             } else if (action == 111) {
-                if (isValidPassant(player, x, y, gameboard)) {
-                    System.out.println("Passant!");
-                    doPassant(player, x, y, gameboard);
+                if (SpecialMoves.isValidPassant(player, x, y, gameboard, moves)) {
+                    // System.out.println("Passant!");
+                    SpecialMoves.doPassant(player, x, y, gameboard, moves);
                     return;
                 }
             } else {
@@ -362,6 +243,7 @@ public class Game {
         // System.out.println(action + " " + piece.getName() + " " + initial.getX());
         int endX = action / 10;
         int endY = action % 10;
+        //// Validates that the specific piece can move in manner intended
         if (piece.isValidMove(x, y, endX, endY)) {
             if (Board.squares[endX][endY].hasPiece()) {
                 if (player.hasPiece(Board.squares[endX][endY].getPiece())) {
@@ -406,14 +288,12 @@ public class Game {
                 King king = (King) piece;
                 king.setXY(endX, endY);
             }
+            ///checks to see if the move has put the opposing King in check
             if (Status.didCheck(player, piece, gameboard, endX, endY)) {
                 move.addCheck();
                 Status.check = true;
                 if (Status.isCheckMate(otherPlayer, gameboard)) {
-                    System.out.println("");
-                    System.out.println("CHECKMATE!!!!!!!!!!!!");
-                    System.out.println(player.getName() + " wins! Congratulations");
-                    System.out.println("");
+                    Status.checkMate = true;
                     Status.active = false;
                 }
             }
@@ -441,6 +321,25 @@ public class Game {
             savedBoards.add(gameboard.saveToMemento());
             gameboard.showBoard();
             player = getOtherTeam(player);
+        }
+        if (Status.checkMate == true) {
+            System.out.println("");
+            System.out.println("CHECKMATE!!!!!!!!!!!!");
+            player = getOtherTeam(player);
+            System.out.println(player.getName() + " wins! Congratulations");
+            System.out.println("");
+        } else if (Status.draw == true) {
+            System.out.println("");
+            System.out.println("Both teams are out of pieces and unable to checkmate. It is a Draw! Good game "
+                    + player1.getName() + " and " + player2.getName());
+            System.out.println("");
+        } else if (Status.forfeit == true) {
+            Player otherPlayer = getOtherTeam(player);
+            System.out.println("");
+            System.out.println(otherPlayer.getName() + " has forfeited! Game Over!");
+            System.out.println(player.getName() + " wins! Congratulations on your victory!");
+            System.out.println("");
+
         }
 
     }

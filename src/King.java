@@ -4,7 +4,6 @@ public class King extends Piece {
     private String name;
     private int x;
     private int y;
-    int[] possibleMoves = { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 };
 
     protected King(String color, int x, int y) {
         // protected King(String color) {
@@ -68,6 +67,7 @@ public class King extends Piece {
     **********For cycling through all pieces to prevent King from moving into check or out of checkmate ************
     */
     public int[] canMakeMove() {
+        int[] possibleMoves = { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 };
         int count = 0;
         int checkX = this.x - 1;
         int checkY = this.y - 1;
@@ -76,6 +76,9 @@ public class King extends Piece {
                 continue;
             }
             for (int j = checkY; j < checkY + 3; j++) {
+                if (j < 0 || j > 7) {
+                    continue;
+                }
                 if (Board.squares[i][j].hasPiece()) {
                     if (Board.squares[i][j].getPiece().getColor() == this.color) {
                         continue;

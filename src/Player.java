@@ -75,11 +75,29 @@ public class Player {
         team = updatedTeam;
     }
 
+    /*
+    **********Retrieves King ************
+    */
     public King getKing() {
         Piece theKing = Arrays.stream(team).filter(x -> x != null).filter(x -> x.getType() == Type.KING).findFirst()
-                .get();
+                .orElse(null);
         King king = (King) theKing;
         return king;
+    }
+
+    /*
+    ************** Counts all Pieces for Draw ****************  
+    */
+    public int pieceCount() {
+        int count = 0;
+        for (Piece i : team) {
+            if (i == null)
+                continue;
+            else {
+                count = count + 1;
+            }
+        }
+        return count;
     }
 
     /*
@@ -123,6 +141,7 @@ public class Player {
         for (Piece candidate : team) {
             if (candidate == null) {
                 team[count] = piece;
+                break;
             }
             count = count + 1;
         }
@@ -135,6 +154,7 @@ public class Player {
         int count = 0;
         for (Piece candidate : team) {
             if (candidate == null) {
+                count++;
                 continue;
             }
             if (candidate.getType().equals(piece.getType())) {
