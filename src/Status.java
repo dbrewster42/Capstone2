@@ -46,6 +46,13 @@ public class Status {
                 return false;
             }
         }
+        if (piece.getType() == Type.KING) {
+            if (attacker.piece.isValidMove(attacker.x, attacker.y, endX, endY)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
         King king = player.getKing();
         int kingX = king.getX();
         int kingY = king.getY();
@@ -69,13 +76,14 @@ public class Status {
             color = "white";
         }
         //// checks to see if King can move out of check
-        /////
+        ///// double loop that adds increment number to current position
         Attacker attacker = attackers[0];
         King king = player.getKing();
         int kingX = king.getX();
         int kingY = king.getY();
         int xDirection = 0;
         int yDirection = 0;
+        int[] possibleMoves = king.canMakeMove();
         if (attacker.x - kingX > 0) {
             xDirection = -1;
         } else if (attacker.x - kingX < 0) {
@@ -85,6 +93,19 @@ public class Status {
             yDirection = -1;
         } else if (attacker.y - kingY < 0) {
             yDirection = 1;
+        }
+        /// Checking if king can move
+        for (int a = 0; a < 10; a = a + 2) {
+            if (possibleMoves[a] == 8) {
+                System.out.println(a + " not here");
+                break;
+            } else if (kingX - possibleMoves[a] == xDirection && kingY - possibleMoves[a + 1] == yDirection) {
+                System.out.println("King cannot move to " + possibleMoves[a] + "" + possibleMoves[a + 1]);
+                continue;
+            } else {
+                System.out.println("King can move to " + possibleMoves[a] + "" + possibleMoves[a + 1]);
+                return false;
+            }
         }
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {

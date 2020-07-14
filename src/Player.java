@@ -75,23 +75,7 @@ public class Player {
         team = updatedTeam;
     }
 
-    /*
-    **********lambda stream that checks to see if the selected piece belongs to the current team ************
-    */
-    public boolean hasPiece(Piece piece) {
-        // return Arrays.stream(team).anyMatch(p -> Objects.equals(piece, p));
-        lambdaContains doIt = team -> {
-            boolean result = Arrays.stream(team).filter(x -> x != null)
-                    .anyMatch(x -> x.getName().equals(piece.getName()));
-            // System.out.println(result);
-            return result;
-        };
-        return doIt.doesHave(team);
-    }
-
     public King getKing() {
-        // Piece King = Arrays.asList(team).filter(x -> x.getType() == Type.KING).findFirst();
-        // Piece King = Arrays.stream(team).filter(x -> x.equals(King)).findFirst();
         Piece theKing = Arrays.stream(team).filter(x -> x != null).filter(x -> x.getType() == Type.KING).findFirst()
                 .get();
         King king = (King) theKing;
@@ -129,6 +113,19 @@ public class Player {
         System.out.println("Bishop: " + bishopCount);
         System.out.println("Pawn: " + pawnCount);
 
+    }
+
+    /*
+    **********Restores captured piece to team for Memento************
+    */
+    public void restorePiece(Piece piece) {
+        int count = 0;
+        for (Piece candidate : team) {
+            if (candidate == null) {
+                team[count] = piece;
+            }
+            count = count + 1;
+        }
     }
 
     /*
@@ -175,6 +172,19 @@ public class Player {
         team[count] = queen;
         piece = queen;
         return piece;
+    }
+
+    /*
+    **********lambda stream that checks to see if the selected piece belongs to the current team ************
+    */
+    public boolean hasPiece(Piece piece) {
+        // return Arrays.stream(team).filter(x -> x != null).anyMatch(p -> Objects.equals(piece, p));
+        lambdaContains doIt = team -> {
+            boolean result = Arrays.stream(team).filter(x -> x != null)
+                    .anyMatch(x -> x.getName().equals(piece.getName()));
+            return result;
+        };
+        return doIt.doesHave(team);
     }
 
     interface lambdaContains {

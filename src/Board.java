@@ -1,3 +1,5 @@
+// import java.util.Arrays;
+
 public class Board {
     // String[] ids = { "A", "B", "C", "D", "E", "F", "G", "H" };   
     final public static Square[][] squares = new Square[8][8];
@@ -133,6 +135,7 @@ public class Board {
     */
     public Memento saveToMemento() {
         // System.out.println("Saving Board to Memento");
+        // Board newBoard = Arrays.copyOf(gameboard);
         return new Memento(gameboard);
     }
 

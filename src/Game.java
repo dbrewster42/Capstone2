@@ -51,7 +51,13 @@ public class Game {
         int prevY = lastMove.getY();
         Board.squares[prevX][prevY].setPiece(lastMove.getPiece());
         if (lastMove.capture) {
-            Board.squares[x][y].setPiece(lastMove.getCapturedPiece());
+            Piece piece = lastMove.getCapturedPiece();
+            Board.squares[x][y].setPiece(piece);
+            if (piece.getColor().equals("white")) {
+                player1.restorePiece(piece);
+            } else {
+                player2.restorePiece(piece);
+            }
         } else {
             Board.squares[x][y].setPiece(null);
         }
@@ -142,7 +148,7 @@ public class Game {
         int currentX = lastMove.getEndX();
         int currentY = lastMove.getEndY();
         int prevX = lastMove.getX();
-        int prevY = lastMove.getY();
+        // int prevY = lastMove.getY();
         if (piece.getType() == Type.PAWN) {
             if (Math.abs(y - currentY) == 1) {
                 if (Math.abs(prevX - currentX) == 2) {
