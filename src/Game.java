@@ -1,12 +1,8 @@
-import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Game {
-    private static Scanner scanner = new Scanner(System.in);
     static List<Move> moves = new ArrayList<Move>();
-    // static Piece[] white = new Piece[16];
-    // static Piece[] black = new Piece[16];
     static Player player1, player2;
     static boolean isFirst = true;
     static List<Board.Memento> savedBoards = new ArrayList<Board.Memento>();
@@ -15,7 +11,6 @@ public class Game {
     ************** Get other Team ****************
     */
     public static Player getOtherTeam(Player player) {
-        // if (player == player1) {
         if (player.isWhite()) {
             return player2;
         } else {
@@ -60,93 +55,6 @@ public class Game {
     }
 
     /*
-    ************** Breaking up the Select Piece function in the hope of making it less buggy ****************
-    */
-    public static void preSelect(Player player, Board gameboard) {
-        if (moves.size() > 20) {
-            int whiteCount = player1.pieceCount();
-            int blackCount = player2.pieceCount();
-            // System.out.println(whiteCount + " " + blackCount);
-            if (whiteCount == 1 && blackCount == 1) {
-                Status.draw = true;
-                Status.active = false;
-
-            }
-        }
-        System.out.println();
-        System.out.println(player.getName() + ", it is your turn.");
-        System.out.println("Enter 999 to display a list of all the remaining pieces");
-        System.out.println("Enter 888 to display the detailed board");
-        System.out.println("Enter 777 to display a list of all moves");
-        System.out.println("Enter 444 to undo a move");
-        System.out.println("Enter 1111 to forfeit");
-        System.out.println("Enter 5555 to petition for Stalemate");
-        System.out.println("Or enter in a double digit number to select your piece");
-        System.out.println();
-        if (Status.check) {
-            System.out.println(player.getName() + ", you have been put into check! You must move out of check");
-            System.out.println();
-        }
-        try {
-            int action = scanner.nextInt();
-            scanner.nextLine();
-            if (action == 999) {
-                player.getPieces();
-                Player otherPlayer = getOtherTeam(player);
-                otherPlayer.getPieces();
-            } else if (action == 888) {
-                gameboard.showDetailedBoard();
-            } else if (action == 777) {
-                printMoves();
-            } else if (action == 1111) {
-                System.out.println("Are you sure that you wish to forfeit?");
-                System.out.println("Type yes or hit any other key to continue with the game");
-                String answer = scanner.nextLine();
-                if (answer.equals("yes")) {
-                    Status.forfeit = true;
-                    Status.active = false;
-                    return;
-                }
-                preSelect(player, gameboard);
-                return;
-            } else if (action == 444) {
-                System.out.println("Are you sure that you wish to undo a move?");
-                System.out.println("Type yes or hit any other key to continue with the game");
-                String answer = scanner.nextLine();
-                if (answer.equals("yes")) {
-                    int mementoSize = savedBoards.size();
-                    int travel = mementoSize - 2;
-                    // System.out.println(mementoSize + "travel: " + travel);
-                    gameboard = gameboard.restoreFromMemento(savedBoards.get(travel));
-                    undo(1);
-                    undo(2);
-                    gameboard.showDetailedBoard();
-                }
-                preSelect(player, gameboard);
-                return;
-            } else if (action == 5555) {
-                System.out.println("You are not in stalemate. There are valid moves you can make");
-            } else {
-                if (action > 77 || action < 0) {
-                    System.out.println("That selection is not a part of the board. Get in the game!");
-                    preSelect(player, gameboard);
-                    return;
-                }
-                // int pieceSelection = action;
-                selectPiece(player, gameboard, action);
-                return;
-            }
-            preSelect(player, gameboard);
-            return;
-        } catch (Exception e) {
-            System.out.println("You must enter a number " + e);
-            e.printStackTrace();
-            preSelect(player, gameboard);
-            return;
-        }
-    }
-
-    /*
     ************** Select a Piece ****************
     */
     public static void selectPiece(Player player, Board gameboard, int pieceSelection) {
@@ -159,81 +67,17 @@ public class Game {
             Piece piece = chosen.getPiece();
             if (player.hasPiece(piece)) {
                 System.out.println("You have selected a " + piece.getType() + " at " + x + ", " + y);
-                preMove(player, x, y, gameboard);
+                InputReader.preMove(player, x, y, gameboard);
                 return;
             } else {
                 System.out.println("Invalid choice. That is not your piece at " + x + ", " + y);
-                preSelect(player, gameboard);
+                InputReader.preSelect(player, gameboard);
             }
 
         } else {
             System.out.println("There is no piece at " + x + ", " + y + ". Please try again");
-            preSelect(player, gameboard);
+            InputReader.preSelect(player, gameboard);
         }
-    }
-
-    /*
-    ************** Breaks up the MovePiece function for smoother design ****************
-    */
-    public static void preMove(Player player, int x, int y, Board gameboard) {
-        // Square initial = Board.squares[x][y];
-        System.out.println();
-        Piece piece = Board.squares[x][y].getPiece();
-        System.out.println(player.getName() + ", you have selected your " + piece.getType());
-        System.out.println("Enter 999 to select a different piece");
-        System.out.println("Enter 888 to display the detailed board");
-        System.out.println("Enter 777 to display a list of all moves");
-        System.out.println("Enter 333 to castle if you have selected a Rook and are in a valid Castling Condition");
-        System.out.println("Enter 111 to perform a passant if you have selected a Pawn and the conditions are valid");
-        System.out.println("Or type in the double digit number tile of your piece's destination");
-        System.out.println();
-        try {
-            int action = scanner.nextInt();
-            scanner.nextLine();
-            if (action == 999) {
-                preSelect(player, gameboard);
-                return;
-            } else if (action == 888) {
-                gameboard.showDetailedBoard();
-                // return;
-            } else if (action == 777) {
-                printMoves();
-                // return;
-            } else if (action == 333) {
-                if (SpecialMoves.isValidCastle(player, x, y, gameboard)) {
-                    // System.out.println("CASTLE!");
-                    SpecialMoves.doCastle(player, x, y, gameboard, moves);
-                    return;
-                }
-            } else if (action == 111) {
-                if (SpecialMoves.isValidPassant(player, x, y, gameboard, moves)) {
-                    // System.out.println("Passant!");
-                    SpecialMoves.doPassant(player, x, y, gameboard, moves);
-                    return;
-                }
-            } else {
-                // System.out.println("We're here and we're hustling");
-                if (action > 77 || action < 0) {
-                    System.out.println(
-                            "You must enter a double digit number. The first digit is the piece's height, the second is the width");
-                    // System.out.println("Hello");
-                    preMove(player, x, y, gameboard);
-                    return;
-                }
-                int pieceSelection = action;
-                // System.out.println(player.getName() + " " + x + " " + y + " " + action);
-                movePiece(player, x, y, gameboard, pieceSelection);
-                return;
-            }
-            preMove(player, x, y, gameboard);
-            return;
-        } catch (Exception e) {
-            System.out.println("You must enter a number dummy ");
-            e.printStackTrace();
-            preMove(player, x, y, gameboard);
-            return;
-        }
-
     }
 
     /*
@@ -251,7 +95,7 @@ public class Game {
             if (Board.squares[endX][endY].hasPiece()) {
                 if (player.hasPiece(Board.squares[endX][endY].getPiece())) {
                     System.out.println("Invalid choice. You already have a piece there!");
-                    preMove(player, x, y, gameboard);
+                    InputReader.preMove(player, x, y, gameboard);
                     return;
                 }
             }
@@ -261,7 +105,7 @@ public class Game {
                     Status.check = false;
                 } else {
                     System.out.println("Invalid move. You must move out of check!");
-                    preMove(player, x, y, gameboard);
+                    InputReader.preMove(player, x, y, gameboard);
                     return;
                 }
             }
@@ -304,14 +148,14 @@ public class Game {
             return;
         } else {
             System.out.println("Invalid move");
-            preMove(player, x, y, gameboard);
+            InputReader.preMove(player, x, y, gameboard);
         }
     }
 
     public void run() {
         Board gameboard = Board.boardConstructor();
-        player1 = getPlayer(1, true);
-        player2 = getPlayer(2, false);
+        player1 = InputReader.getPlayer(1, true);
+        player2 = InputReader.getPlayer(2, false);
         System.out.println();
         System.out.println(
                 "Select your piece by typing in a double digit number. The first digit is the vertical coordinate, the second digit is the horizontal like so-");
@@ -319,7 +163,7 @@ public class Game {
         System.out.println("You can type 888 into the console at any time to see this detailed board");
         Player player = player1;
         while (Status.active) {
-            preSelect(player, gameboard);
+            InputReader.preSelect(player, gameboard);
             gameboard.set(gameboard);
             savedBoards.add(gameboard.saveToMemento());
             gameboard.showBoard();
@@ -346,9 +190,4 @@ public class Game {
 
     }
 
-    private Player getPlayer(int number, boolean isWhite) {
-        System.out.println(String.format("Player %d, please enter your name", number));
-        String name = scanner.nextLine();
-        return Player.createPlayer(name, isWhite);
-    }
 }

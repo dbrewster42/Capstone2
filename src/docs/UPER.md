@@ -136,7 +136,7 @@ I am refactoring my Player class to change the team name to a boolean for easier
 
 1. Single Responsibility Principle - I have spent a lot of time contemplating the Single Responsibility Principle as it relates to this assignment (and also burger). This principle is very easy to implement but very tough to implement it 100%. My Game.java(entry point) breaks the Single Responsibilty but I am unsure of how to do it better. I would love to see a demonstration of either this assignment, or the burger assignment that completely follows the Single Responsibility Principle.
 
-2. Open Closed Principle- Piece is open for extension and closed for modification which demonstrates the Open Closed Principle. All subclasses of piece inherits (extends) its behavior and adds unique behavior without modifying Piece itself. Any unique properties of a piece are isolated to that piece such as King having a location
+2. Open Closed Principle- Piece is open for extension and closed for modification which demonstrates the Open Closed Principle. All subclasses of piece inherits (or extends) its behavior and adds unique behavior without modifying Piece itself. Any unique properties of a piece are isolated to that piece such as King having a location
 
 3. Liskov Substitution Principle - The children are substituted seemlessly for the parent Piece which is the Liskov Substitution Principle. My game would not work otherwise because the vast majority of my calls to the children of Piece are actually to Piece itself even though Piece is an abstract class and cannot actually perform any of the methods I call to it. The only times I do not call Piece are for special rules such as Pawn Promotion or Castling which require a specific subclass.
 
