@@ -16,7 +16,7 @@ public class InputReader {
     ************** First half of Piece Select(input) ****************
     */
     public static void preSelect(Player player, Board gameboard) {
-        if (Game.moves.size() > 20) {
+        if (Move.moves.size() > 20) {
             int whiteCount = Game.player1.pieceCount();
             int blackCount = Game.player2.pieceCount();
             // System.out.println(whiteCount + " " + blackCount);
@@ -50,7 +50,7 @@ public class InputReader {
             } else if (action == 888) {
                 gameboard.showDetailedBoard();
             } else if (action == 777) {
-                Game.printMoves();
+                Move.printMoves();
             } else if (action == 1111) {
                 System.out.println("Are you sure that you wish to forfeit?");
                 System.out.println("Type yes or hit any other key to continue with the game");
@@ -104,7 +104,7 @@ public class InputReader {
     */
     public static void preMove(Player player, int x, int y, Board gameboard) {
         // Square initial = Board.squares[x][y];
-        List<Move> moves = Game.moves;
+        List<Move> moves = Move.moves;
         System.out.println();
         Piece piece = Board.squares[x][y].getPiece();
         System.out.println(player.getName() + ", you have selected your " + piece.getType());
@@ -125,7 +125,7 @@ public class InputReader {
                 gameboard.showDetailedBoard();
                 // return;
             } else if (action == 777) {
-                Game.printMoves();
+                Move.printMoves();
                 // return;
             } else if (action == 333) {
                 if (SpecialMoves.isValidCastle(player, x, y, gameboard)) {

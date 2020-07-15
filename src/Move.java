@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.ArrayList;
+
 class Move {
     private int x, y, endX, endY;
     public boolean capture = false;
@@ -7,10 +10,12 @@ class Move {
     private String message;
     private Player player;
     private Piece piece, capturedPiece;
+    static List<Move> moves = new ArrayList<Move>();
 
     public Move(Player player, Piece piece, int x, int y, int endX, int endY) {
         this(player, piece, x, y, endX, endY, false);
         message = makeMessage();
+        // moves.add(this);
     }
 
     public Move(Player player, Piece piece, int x, int y, int endX, int endY, boolean castle) {
@@ -26,8 +31,24 @@ class Move {
         } else {
             message = player.getName() + " has performed a short side castle";
         }
+        moves.add(this);
 
     }
+
+    /*
+    ************** Prints All Moves ****************
+    */
+    public static void printMoves() {
+        int count = 1;
+        for (Move i : moves) {
+            System.out.println(count + ". " + i.getMessage());
+            count++;
+        }
+        System.out.println(" ");
+    }
+    // public static void addMoveToList(){
+
+    // }
 
     public void addPromoted() {
         promoted = true;

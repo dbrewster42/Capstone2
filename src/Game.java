@@ -2,7 +2,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Game {
-    static List<Move> moves = new ArrayList<Move>();
     static Player player1, player2;
     static boolean isFirst = true;
     static List<Board.Memento> savedBoards = new ArrayList<Board.Memento>();
@@ -19,22 +18,10 @@ public class Game {
     }
 
     /*
-    ************** Prints All Moves ****************
-    */
-    public static void printMoves() {
-        int count = 1;
-        for (Move i : moves) {
-            System.out.println(count + ". " + i.getMessage());
-            count++;
-        }
-        System.out.println(" ");
-    }
-
-    /*
     ************** Undo side effects in tandem with Memento ****************
     */
     public static void undo(int i) {
-        Move lastMove = moves.get(moves.size() - i);
+        Move lastMove = Move.moves.get(Move.moves.size() - i);
         int x = lastMove.getEndX();
         int y = lastMove.getEndY();
         int prevX = lastMove.getX();
@@ -99,6 +86,7 @@ public class Game {
                     return;
                 }
             }
+            //// Must move out of check if in check
             if (Status.check) {
                 if (Status.defeatCheck(player, piece, gameboard, endX, endY)) {
                     System.out.println(player.getName() + " has moved out of check!");
@@ -111,7 +99,7 @@ public class Game {
             }
             Type type = piece.getType();
             Move move = new Move(player, piece, x, y, endX, endY);
-            moves.add(move);
+            ///checks if Pawn Promotion is applicable
             if (type == Type.PAWN) {
                 if (endX == 0 || endX == 7) {
                     piece = player.pawnPromotion(piece, endX, endY);
