@@ -46,9 +46,6 @@ class Move {
         }
         System.out.println(" ");
     }
-    // public static void addMoveToList(){
-
-    // }
 
     public void addPromoted() {
         promoted = true;
@@ -104,37 +101,5 @@ class Move {
     public Piece getCapturedPiece() {
         return this.capturedPiece;
     }
-    // /*
-    // ************** Saves State for Option to undo****************
-    // */
-    // public Memento saveToMemento(Move move) {
-    //     // System.out.println("Saving Board to Memento");
-    //     return new Memento(move);
-    // }
-
-    // /*
-    // ************** Restores State (undoes) ****************
-    // */
-    // public Board restoreFromMemento(Memento memento) {
-    //     Board gameboard = memento.getSavedBoard();
-    //     System.out.println("Board restored from Memento.");
-    //     return gameboard;
-    // }
-
-    // /*
-    // ************** Memento Design Patterns Saves Each Turn to enable an Undo ****************
-    // */
-    // public class Memento {
-    //     private Board gameboard;
-
-    //     public Memento(Board gameboard) {
-    //         this.gameboard = gameboard;
-    //     }
-
-    //     public Board getSavedBoard() {
-    //         return gameboard;
-    //     }
-
-    // }
 
 }

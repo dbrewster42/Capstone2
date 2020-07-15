@@ -88,9 +88,7 @@ public class Board {
         creates the board, using nested arrays to dynamically make 8 rows columns 1-6
         */
         for (int i = 1; i < 7; i++) {
-            // String firstID = ids[i];
             for (int j = 0; j < 8; j++) {
-                // String id = firstID + j;
                 if (i == 1)
                     squares[i][j] = new Square(i, j, new Pawn("black"));
                 else if (i == 6)
@@ -99,8 +97,6 @@ public class Board {
                     Square square = new Square(i, j, null);
                     squares[i][j] = square;
                 }
-                // squares.add(square);
-                // count++;
             }
         }
         squares[7][0] = new Square(7, 0, new Rook("white"));
@@ -111,14 +107,6 @@ public class Board {
         squares[7][5] = new Square(7, 5, new Bishop("white"));
         squares[7][6] = new Square(7, 6, new Knight("white"));
         squares[7][7] = new Square(7, 7, new Rook("white"));
-        // squares[7][0] = new Square(7, 0, new Rook("white", 7, 0));
-        // squares[7][1] = new Square(7, 1, new Knight("white", 7, 1));
-        // squares[7][2] = new Square(7, 2, new Bishop("white", 7, 2));
-        // squares[7][3] = new Square(7, 3, new Queen("white", 7, 3));
-        // squares[7][4] = new Square(7, 4, new King("white", 7, 4));
-        // squares[7][5] = new Square(7, 5, new Bishop("white", 7, 5));
-        // squares[7][6] = new Square(7, 6, new Knight("white", 7, 6));
-        // squares[7][7] = new Square(7, 7, new Rook("white", 7, 7));
 
         return squares;
     }
@@ -134,8 +122,6 @@ public class Board {
     ************** Saves State for Option to undo****************
     */
     public Memento saveToMemento() {
-        // System.out.println("Saving Board to Memento");
-        // Board newBoard = Arrays.copyOf(gameboard);
         return new Memento(gameboard);
     }
 

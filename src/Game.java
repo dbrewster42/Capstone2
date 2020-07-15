@@ -1,10 +1,6 @@
-import java.util.List;
-import java.util.ArrayList;
-
 public class Game {
     static Player player1, player2;
     static boolean isFirst = true;
-    static List<Board.Memento> savedBoards = new ArrayList<Board.Memento>();
 
     /*
     ************** Get other Team ****************
@@ -152,8 +148,6 @@ public class Game {
         Player player = player1;
         while (Status.active) {
             InputReader.preSelect(player, gameboard);
-            gameboard.set(gameboard);
-            savedBoards.add(gameboard.saveToMemento());
             gameboard.showBoard();
             player = getOtherTeam(player);
         }

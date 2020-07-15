@@ -1,10 +1,8 @@
 import java.util.Scanner;
 import java.util.List;
-import java.util.ArrayList;
 
 public class InputReader {
     private static Scanner scanner = new Scanner(System.in);
-    static List<Board.Memento> savedBoards = new ArrayList<Board.Memento>();
 
     protected static Player getPlayer(int number, boolean isWhite) {
         System.out.println(String.format("Player %d, please enter your name", number));
@@ -67,10 +65,6 @@ public class InputReader {
                 System.out.println("Type yes or hit any other key to continue with the game");
                 String answer = scanner.nextLine();
                 if (answer.equals("yes")) {
-                    int mementoSize = savedBoards.size();
-                    int travel = mementoSize - 2;
-                    // System.out.println(mementoSize + "travel: " + travel);
-                    gameboard = gameboard.restoreFromMemento(savedBoards.get(travel));
                     Game.undo(1);
                     Game.undo(2);
                     gameboard.showDetailedBoard();
