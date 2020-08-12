@@ -1,3 +1,8 @@
+package com.chess.gameflow;
+
+import com.chess.board.*;
+import com.chess.pieces.*;
+
 import java.util.List;
 
 public class SpecialMoves {

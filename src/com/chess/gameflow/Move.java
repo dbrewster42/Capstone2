@@ -1,3 +1,7 @@
+package com.chess.gameflow;
+
+import com.chess.pieces.Piece;
+
 import java.util.List;
 import java.util.ArrayList;
 

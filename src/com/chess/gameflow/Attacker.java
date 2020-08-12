@@ -1,3 +1,7 @@
+package com.chess.gameflow;
+
+import com.chess.pieces.Piece;
+
 public class Attacker {
     public boolean isWhite;
     public Piece piece;

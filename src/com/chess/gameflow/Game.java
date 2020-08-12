@@ -1,3 +1,8 @@
+package com.chess.gameflow;
+
+import com.chess.pieces.King;
+import com.chess.pieces.Piece;
+
 public class Game {
     static Player player1, player2;
     static boolean isFirst = true;

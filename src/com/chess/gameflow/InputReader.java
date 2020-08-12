@@ -1,3 +1,9 @@
+package com.chess.gameflow;
+
+import com.chess.board.Board;
+import com.chess.gameflow.*;
+import com.chess.pieces.Piece;
+
 import java.util.Scanner;
 import java.util.List;
 

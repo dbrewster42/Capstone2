@@ -1,4 +1,9 @@
-// import java.util.Arrays;
+package com.chess.gameflow;// import java.util.Arrays;
+
+import com.chess.gameflow.Game;
+import com.chess.gameflow.Player;
+import com.chess.pieces.King;
+import com.chess.pieces.Piece;
 
 public class Status {
     public static boolean active = true;

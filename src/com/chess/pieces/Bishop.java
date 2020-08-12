@@ -1,3 +1,5 @@
+package com.chess.pieces;
+
 public class Bishop extends Piece {
     private Type type;
     private String color;

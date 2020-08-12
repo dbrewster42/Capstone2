@@ -1,3 +1,5 @@
+package com.chess.pieces;
+
 public class Pawn extends Piece {
     // final public static Piece B_Pawn = new Pawn("Pawn", "black");
     // final public static Piece W_Pawn = new Pawn("Pawn", "white");

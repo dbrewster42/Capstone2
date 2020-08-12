@@ -1,4 +1,6 @@
-// import java.util.Arrays;
+package com.chess.board;// import java.util.Arrays;
+
+import com.chess.pieces.*;
 
 public class Board {
     // String[] ids = { "A", "B", "C", "D", "E", "F", "G", "H" };   

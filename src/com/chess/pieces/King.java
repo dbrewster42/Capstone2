@@ -1,3 +1,5 @@
+package com.chess.pieces;
+
 public class King extends Piece {
     private Type type;
     private String color;

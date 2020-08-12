@@ -1,4 +1,6 @@
-// package com.gameboard;
+package com.chess.board;// package com.gameboard;
+
+import com.chess.pieces.Piece;
 
 public class Square {
     private Piece piece;

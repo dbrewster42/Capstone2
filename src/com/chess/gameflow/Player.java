@@ -1,3 +1,9 @@
+package com.chess.gameflow;
+
+import com.chess.pieces.King;
+import com.chess.pieces.Piece;
+import com.chess.pieces.Queen;
+
 import java.util.Arrays;
 
 public class Player {
